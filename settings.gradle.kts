@@ -20,4 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Mosaic"
-include(":app")
+include(":demo")
