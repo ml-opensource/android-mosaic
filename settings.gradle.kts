@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Mosaic"
 include(":demo")
+include(":lib")
