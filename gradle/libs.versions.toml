@@ -8,6 +8,7 @@ espresso = "3.5.1"
 lifecyle = "2.7.0"
 activityCompose = "1.8.2"
 composeBom = "2024.02.00"
+spotless="6.25.0"
 
 [libraries]
 android_gradle_plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -28,10 +29,12 @@ compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 
 [plugins]
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 mosaic-application = { id = "io.monstarlab.mosaic.application", version = "undefined" }
 mosaic-library = { id = "io.monstarlab.mosaic.library", version = "undefined" }
+
 
 
