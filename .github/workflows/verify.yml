@@ -1,0 +1,13 @@
+  on: pull_request
+  jobs:
+    verify:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Setup Java
+          uses: actions/setup-java@v1
+          with:
+           java-version: 17
+        - name: Run Tests
+          run: ./gradlew test
