@@ -6,3 +6,5 @@ theme:
   palette:
     primary: custom
 
+nav:
+  - 'API': api/
