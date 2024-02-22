@@ -1,0 +1,10 @@
+site_name: My Docs
+extra_css:
+  - stylesheets/extra.css
+theme:
+  name: material
+  palette:
+    primary: custom
+
+nav:
+  - 'API': api/
