@@ -7,10 +7,12 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.kotlin.dokka)
 }
 
 
 subprojects {
+    apply(plugin = rootProject.libs.plugins.kotlin.dokka.get().pluginId)
     apply(plugin = rootProject.libs.plugins.detekt.get().pluginId)
     configure<DetektExtension> {
         buildUponDefaultConfig = true
