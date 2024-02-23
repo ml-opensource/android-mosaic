@@ -20,7 +20,7 @@ fun SliderDemo() = Scaffold(modifier = Modifier) {
             value = 0.5f,
             onValueChange = {},
             colors = SliderColors(Color.Red),
-            modifier = Modifier.clip(RoundedCornerShape(2.dp))
+            modifier = Modifier.clip(RoundedCornerShape(2.dp)),
         )
     }
 }

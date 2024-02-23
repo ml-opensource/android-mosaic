@@ -1,6 +1,5 @@
 package io.monstarlab.mosaic.slider
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -19,7 +18,6 @@ internal fun SliderTrack(
     modifier: Modifier = Modifier,
     disabledRange: ClosedFloatingPointRange<Float> = 0f..0f,
 ) {
-
     check(progress in 0f..1f) { "Invalid progress value should be between 0 and 1" }
     Box(
         modifier = modifier
@@ -30,13 +28,13 @@ internal fun SliderTrack(
                 drawRect(
                     color = colors.active,
                     topLeft = Offset.Zero,
-                    size = Size(activeRectWidth, size.height)
+                    size = Size(activeRectWidth, size.height),
                 )
 
                 drawRect(
                     color = colors.inactive,
                     topLeft = Offset(activeRectWidth, 0f),
-                    size = Size(size.width - activeRectWidth, size.height)
+                    size = Size(size.width - activeRectWidth, size.height),
                 )
 
                 if (!disabledRange.isEmpty()) {
@@ -45,13 +43,12 @@ internal fun SliderTrack(
                     drawRect(
                         color = colors.disabled,
                         topLeft = Offset(size.width * disabledRange.start, 0f),
-                        size = Size(disabledEnd - disabledStart, size.height)
+                        size = Size(disabledEnd - disabledStart, size.height),
                     )
                 }
-            }
+            },
     )
 }
-
 
 @Preview
 @Composable

@@ -23,7 +23,7 @@ public fun SliderLayout(
     progress: Float,
     modifier: Modifier = Modifier,
     track: @Composable () -> Unit,
-    thumb: @Composable () -> Unit
+    thumb: @Composable () -> Unit,
 ) {
     Layout(
         modifier = modifier.requiredSizeIn(SliderDefaults.HandleWidth, SliderDefaults.HandleHeight),
@@ -34,7 +34,8 @@ public fun SliderLayout(
             Box(modifier = Modifier.layoutId(SliderLayoutElements.Thumb)) {
                 thumb()
             }
-        }) { mesuarables, constraints ->
+        },
+    ) { mesuarables, constraints ->
 
         val thumbPlaceable = mesuarables
             .first { it.layoutId == SliderLayoutElements.Thumb }
@@ -42,10 +43,11 @@ public fun SliderLayout(
 
         val trackPlaceable = mesuarables
             .first { it.layoutId == SliderLayoutElements.Track }
-            .measure(constraints.offset(
-                horizontal = - thumbPlaceable.width
-            ).copy(minHeight = 0))
-
+            .measure(
+                constraints.offset(
+                    horizontal = -thumbPlaceable.width,
+                ).copy(minHeight = 0),
+            )
 
         val sliderHeight = max(thumbPlaceable.height, trackPlaceable.height)
         val sliderWidth = trackPlaceable.width
@@ -58,11 +60,10 @@ public fun SliderLayout(
     }
 }
 
-
 internal enum class SliderLayoutElements {
-    Track, Thumb
+    Track,
+    Thumb,
 }
-
 
 @Preview
 @Composable
@@ -75,14 +76,15 @@ private fun PreviewSliderLayout() {
                 modifier = Modifier
                     .background(Color.Yellow)
                     .height(15.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             )
         },
         thumb = {
             Box(
                 modifier = Modifier
                     .size(32.dp)
-                    .background(Color.Black, shape = CircleShape)
+                    .background(Color.Black, shape = CircleShape),
             )
-        })
+        },
+    )
 }
