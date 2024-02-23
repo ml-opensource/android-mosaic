@@ -4,4 +4,5 @@ import androidx.compose.ui.unit.dp
 
 internal object SliderDefaults {
     val TrackHeight = 4.dp
+    val ThumbSize = 16.dp
 }
