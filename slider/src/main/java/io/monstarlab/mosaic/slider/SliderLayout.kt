@@ -20,7 +20,8 @@ import kotlin.math.roundToInt
 
 @Composable
 public fun SliderLayout(
-    progress: Float,
+    value: Float,
+    onDimensionsResolved: (Float, Float) -> Unit,
     modifier: Modifier = Modifier,
     track: @Composable () -> Unit,
     thumb: @Composable () -> Unit,
@@ -50,15 +51,26 @@ public fun SliderLayout(
             )
 
         val sliderHeight = max(thumbPlaceable.height, trackPlaceable.height)
-        val sliderWidth = trackPlaceable.width
+        val sliderWidth = trackPlaceable.width + thumbPlaceable.width
+        onDimensionsResolved(sliderWidth.toFloat(), thumbPlaceable.width.toFloat())
+
+        val trackOffsetX = thumbPlaceable.width / 2
+        val thumbOffsetX = ((trackPlaceable.width) * value).roundToInt()
+        val trackOffsetY = (sliderHeight - trackPlaceable.height) / 2
+        val thumbOffsetY = (sliderHeight - thumbPlaceable.height) / 2
+
         layout(sliderWidth, sliderHeight) {
-            val thumbX = (trackPlaceable.width * progress).roundToInt() - thumbPlaceable.width / 2
-            val trackY = sliderHeight - trackPlaceable.height
-            trackPlaceable.placeRelative(0, trackY / 2)
-            thumbPlaceable.place(thumbX, 0)
-        }
+            trackPlaceable.placeRelative(
+                trackOffsetX,
+                trackOffsetY
+            )
+            thumbPlaceable.placeRelative(
+                thumbOffsetX,
+                thumbOffsetY
+            )
     }
 }
+    }
 
 internal enum class SliderLayoutElements {
     Track,
@@ -68,23 +80,26 @@ internal enum class SliderLayoutElements {
 @Preview
 @Composable
 private fun PreviewSliderLayout() {
-    SliderLayout(
-        modifier = Modifier.fillMaxWidth(1f),
-        progress = 0.5f,
-        track = {
-            Box(
-                modifier = Modifier
-                    .background(Color.Yellow)
-                    .height(15.dp)
-                    .fillMaxWidth(),
-            )
-        },
-        thumb = {
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(Color.Black, shape = CircleShape),
-            )
-        },
-    )
+    Box(modifier = Modifier.background(Color.Red)) {
+        SliderLayout(
+            onDimensionsResolved = { _, _ -> },
+            modifier = Modifier.fillMaxWidth(0.5f),
+            value = 1f,
+            track = {
+                Box(
+                    modifier = Modifier
+                        .background(Color.Yellow)
+                        .height(12.dp)
+                        .fillMaxWidth(),
+                )
+            },
+            thumb = {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(Color.Black, shape = CircleShape),
+                )
+            },
+        )
+    }
 }

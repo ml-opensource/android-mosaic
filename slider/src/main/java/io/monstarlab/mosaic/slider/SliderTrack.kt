@@ -18,7 +18,7 @@ internal fun SliderTrack(
     modifier: Modifier = Modifier,
     disabledRange: ClosedFloatingPointRange<Float> = 0f..0f,
 ) {
-    check(progress in 0f..1f) { "Invalid progress value should be between 0 and 1" }
+    check(progress in 0f..1f) { "Invalid progress value of $progress, should be between 0 and 1" }
     Box(
         modifier = modifier
             .fillMaxWidth()

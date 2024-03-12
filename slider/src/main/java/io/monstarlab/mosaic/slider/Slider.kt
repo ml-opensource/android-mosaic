@@ -1,21 +1,20 @@
 package io.monstarlab.mosaic.slider
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 
 @Composable
 public fun Slider(
@@ -23,19 +22,37 @@ public fun Slider(
     onValueChange: (Float) -> Unit,
     colors: SliderColors,
     modifier: Modifier = Modifier,
-    thumb: @Composable () -> Unit = { DefaultSliderThumb(colors = colors) }
+    range: ClosedFloatingPointRange<Float> = 0f..1f,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    thumb: @Composable () -> Unit = { DefaultSliderThumb(colors = colors) },
 ) {
+    val state = rememberSliderState()
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+
+    state.value = value
+    state.range = range
+    state.onValueChange = onValueChange
+
+    val draggable = modifier.draggable(
+        state = state,
+        orientation = Orientation.Horizontal,
+        enabled = true,
+        interactionSource = interactionSource,
+        startDragImmediately = true,
+        reverseDirection = isRtl,
+    )
 
     SliderLayout(
-        progress = value,
+        modifier = modifier.then(draggable),
         thumb = thumb,
         track = {
             SliderTrack(
-                modifier = modifier,
-                progress = value,
+                progress = state.valueAsFraction,
                 colors = colors,
             )
-        }
+        },
+        onDimensionsResolved = state::updateDimensions,
+        value = state.valueAsFraction
     )
 }
 
@@ -46,8 +63,8 @@ internal fun DefaultSliderThumb(colors: SliderColors) {
             .size(SliderDefaults.ThumbSize)
             .background(
                 color = colors.active,
-                shape = CircleShape
-            )
+                shape = CircleShape,
+            ),
     )
 }
 
@@ -57,6 +74,6 @@ private fun PreviewSlider() {
     Slider(
         value = 0.5f,
         onValueChange = {},
-        colors = SliderColors(Color.Yellow)
+        colors = SliderColors(Color.Yellow),
     )
 }
