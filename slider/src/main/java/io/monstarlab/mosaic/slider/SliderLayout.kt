@@ -62,15 +62,15 @@ public fun SliderLayout(
         layout(sliderWidth, sliderHeight) {
             trackPlaceable.placeRelative(
                 trackOffsetX,
-                trackOffsetY
+                trackOffsetY,
             )
             thumbPlaceable.placeRelative(
                 thumbOffsetX,
-                thumbOffsetY
+                thumbOffsetY,
             )
+        }
     }
 }
-    }
 
 internal enum class SliderLayoutElements {
     Track,

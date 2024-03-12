@@ -11,7 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
 public class SliderState(
-    private val valueDistribution: SliderValueDistribution
+    private val valueDistribution: SliderValueDistribution,
 ) : DraggableState {
 
     private var isDragging by mutableStateOf(false)
@@ -39,7 +39,6 @@ public class SliderState(
         override fun dragBy(pixels: Float): Unit = dispatchRawDelta(pixels)
     }
 
-
     override fun dispatchRawDelta(delta: Float) {
         rawOffset += delta
         onValueChange(scaleToUserValue(rawOffset))
@@ -56,15 +55,13 @@ public class SliderState(
         this.thumbWidth = thumbWidth
     }
 
-    private fun scaleToUserValue(value: Float) : Float {
+    private fun scaleToUserValue(value: Float): Float {
         return scale(0f, totalWidth, value, range.start, range.endInclusive)
     }
 
-    private fun scaleToOffset(value: Float) : Float {
+    private fun scaleToOffset(value: Float): Float {
         return scale(range.start, range.endInclusive, value, 0f, totalWidth)
     }
-
-
 }
 
 @Composable
