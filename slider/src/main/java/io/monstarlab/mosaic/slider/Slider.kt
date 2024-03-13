@@ -15,6 +15,18 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 
+/**
+ * A composable function that creates a slider UI component.
+ *
+ * @param value the current value of the slider
+ * @param onValueChange a callback function invoked when the slider value changes
+ * @param colors the colors used to customize the appearance of the slider
+ * @param modifier the modifier to be applied to the slider
+ * @param valueDistribution the strategy for distributing slider values
+ * @param range the range of values the slider can represent
+ * @param interactionSource the interaction source used to handle user input interactions
+ * @param thumb the composable function used to render the slider thumb
+ */
 @Composable
 public fun Slider(
     value: Float,

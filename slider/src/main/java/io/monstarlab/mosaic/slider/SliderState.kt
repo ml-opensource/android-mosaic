@@ -12,6 +12,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.coroutineScope
 
+/**
+ * A compose state for the Slider component
+ * Responsible for managing internal properties such as offset value and drag / click behaviours
+ */
 public class SliderState(
     value: Float,
     private val valueDistribution: SliderValueDistribution,
@@ -32,10 +36,14 @@ public class SliderState(
         return calcFraction(0f, totalWidth, rawOffset)
     }
 
+    /**
+     * Current value of the slider
+     * If value of the slider is out of the [range] it will be coerced into it
+     */
     public var value: Float
-        get() = scaleToUserValue(rawOffset)
+        get() = scaleToUserValue(rawOffset).coerceIn(range)
         set(value) {
-            rawOffset = scaleToOffset(value)
+            rawOffset = scaleToOffset(value.coerceIn(range))
         }
 
     private val dragScope: DragScope = object : DragScope {
