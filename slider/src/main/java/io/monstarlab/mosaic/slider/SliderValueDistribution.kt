@@ -29,7 +29,7 @@ public interface SliderValueDistribution {
 public class ParabolicValueDistribution(
     private val a: Float,
     private val b: Float,
-    private val c: Float
+    private val c: Float,
 ) : SliderValueDistribution {
 
     override fun inverse(value: Float): Float {

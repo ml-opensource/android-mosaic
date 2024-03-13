@@ -18,12 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.monstarlab.mosaic.slider.ParabolicValueDistribution
 import io.monstarlab.mosaic.slider.Slider
 import io.monstarlab.mosaic.slider.SliderColors
 import io.monstarlab.mosaic.slider.SliderValueDistribution
 import kotlin.math.roundToInt
-import kotlin.math.sqrt
 import androidx.compose.material3.Slider as MaterialSlider
 
 @Composable
@@ -55,7 +53,7 @@ fun SliderDemo() = Scaffold(modifier = Modifier) {
             valuesDistribution = SliderValueDistribution.parabolic(
                 a = (1000 - 100 * 0.1f) / (1000 * 1000),
                 b = 0.1f,
-                c = 1f
+                c = 1f,
             ),
         )
     }
@@ -97,7 +95,6 @@ fun MosaicSliderDemo(
         Text(text = range.endInclusive.toString())
     }
 }
-
 
 @Preview
 @Composable
