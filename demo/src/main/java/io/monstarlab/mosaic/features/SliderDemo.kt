@@ -1,12 +1,12 @@
 package io.monstarlab.mosaic.features
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,23 +15,27 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.monstarlab.mosaic.slider.ParabolicValueDistribution
 import io.monstarlab.mosaic.slider.Slider
 import io.monstarlab.mosaic.slider.SliderColors
+import io.monstarlab.mosaic.slider.SliderValueDistribution
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import androidx.compose.material3.Slider as MaterialSlider
+
 @Composable
 fun SliderDemo() = Scaffold(modifier = Modifier) {
     var materialSliderValue by remember { mutableFloatStateOf(50f) }
-    var mosaicSliderValue by remember { mutableFloatStateOf(50f) }
 
     Column(
         modifier = Modifier
             .padding(it)
             .padding(16.dp)
             .background(Color.LightGray),
+        verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
         MaterialSlider(
             value = materialSliderValue,
@@ -40,20 +44,60 @@ fun SliderDemo() = Scaffold(modifier = Modifier) {
         )
         Text(text = materialSliderValue.toString())
 
-        Spacer(modifier = Modifier.size(32.dp))
-
-        Slider(
-            value = mosaicSliderValue,
-            onValueChange = { mosaicSliderValue = it },
-            colors = SliderColors(Color.Red),
-            modifier = Modifier.clip(RoundedCornerShape(2.dp)),
-            range = 0f..100f,
-        ) {
-            Box(modifier = Modifier.background(Color.Yellow).size(32.dp))
-        }
-        Text(text = mosaicSliderValue.toString())
+        MosaicSliderDemo(
+            label = "Linear division strategy",
+            range = 0f..1000f,
+            valuesDistribution = SliderValueDistribution.Linear,
+        )
+        MosaicSliderDemo(
+            label = "Parabolic",
+            range = 0f..1000f,
+            valuesDistribution = SliderValueDistribution.parabolic(
+                a = (1000 - 100 * 0.1f) / (1000 * 1000),
+                b = 0.1f,
+                c = 1f
+            ),
+        )
     }
 }
+
+@Composable
+fun MosaicSliderDemo(
+    label: String,
+    range: ClosedFloatingPointRange<Float>,
+    valuesDistribution: SliderValueDistribution,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier) {
+        Text(text = label)
+
+        var value by remember { mutableFloatStateOf(50f) }
+        Row(
+            horizontalArrangement = Arrangement.Start,
+            modifier = Modifier,
+        ) {
+            Text(text = range.start.toString())
+            Slider(
+                value = value,
+                onValueChange = { value = it },
+                colors = SliderColors(Color.Black),
+                range = range,
+                valueDistribution = valuesDistribution,
+                thumb = {
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .background(Color.Yellow),
+                    ) {
+                        Text(text = value.roundToInt().toString())
+                    }
+                },
+            )
+        }
+        Text(text = range.endInclusive.toString())
+    }
+}
+
 
 @Preview
 @Composable

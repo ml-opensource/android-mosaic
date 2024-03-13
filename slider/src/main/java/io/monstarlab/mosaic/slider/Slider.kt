@@ -21,11 +21,12 @@ public fun Slider(
     onValueChange: (Float) -> Unit,
     colors: SliderColors,
     modifier: Modifier = Modifier,
+    valueDistribution: SliderValueDistribution = SliderValueDistribution.Linear,
     range: ClosedFloatingPointRange<Float> = 0f..1f,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     thumb: @Composable () -> Unit = { DefaultSliderThumb(colors = colors) },
 ) {
-    val state = rememberSliderState()
+    val state = rememberSliderState(value, valueDistribution)
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
     state.value = value
