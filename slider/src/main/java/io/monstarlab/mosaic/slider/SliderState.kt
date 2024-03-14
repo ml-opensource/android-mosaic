@@ -19,7 +19,7 @@ import kotlinx.coroutines.coroutineScope
  */
 public class SliderState(
     value: Float,
-    private val range: ClosedFloatingPointRange<Float>,
+    public val range: ClosedFloatingPointRange<Float>,
     private val disabledRange: ClosedFloatingPointRange<Float>,
     private val valueDistribution: SliderValueDistribution,
 ) : DraggableState {
@@ -39,7 +39,7 @@ public class SliderState(
         }
 
     internal val disabledRangeAsFractions: ClosedFloatingPointRange<Float>
-        get() = coerceRange(disabledRange)
+        get() = coerceRangeIntoFractions(disabledRange)
 
     /**
      * Current value of the slider
@@ -88,7 +88,13 @@ public class SliderState(
         }
     }
 
-    private fun coerceRange(
+    internal fun coerceValue(value: Float): Float {
+        return value
+            .coerceIn(range)
+            .coerceIntoDisabledRange()
+    }
+
+    private fun coerceRangeIntoFractions(
         subrange: ClosedFloatingPointRange<Float>,
     ): ClosedFloatingPointRange<Float> {
         if (subrange.isEmpty()) return subrange
@@ -108,9 +114,20 @@ public class SliderState(
     private fun scaleToUserValue(offset: Float): Float {
         val range = valueDistribution.interpolate(range)
         val scaledUserValue = scale(0f, totalWidth, offset, range.start, range.endInclusive)
-        return valueDistribution.inverse(scaledUserValue)
-            .coerceIn(this.range)
-            .coerceIntoDisabledRange()
+        return coerceValue(valueDistribution.inverse(scaledUserValue))
+    }
+
+    private fun scaleToOffset(value: Float): Float {
+        val coerced = coerceValue(value)
+        val interpolatedRange = valueDistribution.interpolate(range)
+        val interpolated = valueDistribution.interpolate(coerced)
+        return scale(
+            interpolatedRange.start,
+            interpolatedRange.endInclusive,
+            interpolated,
+            0f,
+            totalWidth,
+        )
     }
 
     private fun Float.coerceIntoDisabledRange(): Float {
@@ -121,19 +138,6 @@ public class SliderState(
         } else {
             coerceAtMost(disabledRange.start)
         }
-    }
-
-    private fun scaleToOffset(value: Float): Float {
-        val coerced = value.coerceIn(range).coerceIntoDisabledRange()
-        val interpolatedRange = valueDistribution.interpolate(range)
-        val interpolated = valueDistribution.interpolate(coerced)
-        return scale(
-            interpolatedRange.start,
-            interpolatedRange.endInclusive,
-            interpolated,
-            0f,
-            totalWidth,
-        )
     }
 }
 
