@@ -56,6 +56,14 @@ public fun Slider(
     )
 }
 
+/**
+ * A composable function that creates a slider UI component.
+ * @param state of the Slider where the latest slider value is stored
+ * @param colors the colors used to customize the appearance of the slider
+ * @param modifier the modifier to be applied to the slider
+ * @param interactionSource the interaction source used to handle user input interactions
+ * @param thumb the composable function used to render the slider thumb
+ */
 @Composable
 public fun Slider(
     state: SliderState,
