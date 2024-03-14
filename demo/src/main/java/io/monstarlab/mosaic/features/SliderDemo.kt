@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import io.monstarlab.mosaic.slider.Slider
 import io.monstarlab.mosaic.slider.SliderColors
 import io.monstarlab.mosaic.slider.SliderValueDistribution
+import io.monstarlab.mosaic.slider.rememberSliderState
 import kotlin.math.roundToInt
 import androidx.compose.material3.Slider as MaterialSlider
 
@@ -57,6 +58,17 @@ fun SliderDemo() = Scaffold(modifier = Modifier) {
                 c = 1f,
             ),
         )
+
+        Slider(
+            state = rememberSliderState(value = 0.5f),
+            colors = SliderColors(Color.Yellow),
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(32.dp)
+                    .background(Color.Black),
+            )
+        }
     }
 }
 

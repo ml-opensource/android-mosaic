@@ -19,12 +19,11 @@ import kotlinx.coroutines.coroutineScope
  */
 public class SliderState(
     value: Float,
-    disabledRange: ClosedFloatingPointRange<Float>,
+    private val range: ClosedFloatingPointRange<Float>,
+    private val disabledRange: ClosedFloatingPointRange<Float>,
     private val valueDistribution: SliderValueDistribution,
 ) : DraggableState {
 
-    internal var range: ClosedFloatingPointRange<Float> = 0f..1f
-    internal var disabledRange by mutableStateOf(disabledRange)
     internal var onValueChange: ((Float) -> Unit)? = null
     internal var isDragging by mutableStateOf(false)
         private set
@@ -141,8 +140,16 @@ public class SliderState(
 @Composable
 public fun rememberSliderState(
     value: Float,
+    range: ClosedFloatingPointRange<Float> = 0f..1f,
     valueDistribution: SliderValueDistribution = SliderValueDistribution.Linear,
     disabledRange: ClosedFloatingPointRange<Float> = EmptyRange,
 ): SliderState {
-    return remember { SliderState(value, disabledRange, valueDistribution) }
+    return remember(range, valueDistribution, disabledRange) {
+        SliderState(
+            value = value,
+            range = range,
+            disabledRange = disabledRange,
+            valueDistribution = valueDistribution,
+        )
+    }
 }

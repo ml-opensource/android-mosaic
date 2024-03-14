@@ -40,15 +40,31 @@ public fun Slider(
     range: ClosedFloatingPointRange<Float> = 0f..1f,
     disabledRange: ClosedFloatingPointRange<Float> = EmptyRange,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    thumb: @Composable () -> Unit = { DefaultSliderThumb(colors = colors) },
+    thumb: @Composable (SliderState) -> Unit = { DefaultSliderThumb(colors = colors) },
 ) {
-    val state = rememberSliderState(value, valueDistribution, disabledRange)
-    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+    val state = rememberSliderState(value, range, valueDistribution, disabledRange)
 
     state.onValueChange = onValueChange
     state.value = value
-    state.range = range
-    state.disabledRange = disabledRange
+
+    Slider(
+        state = state,
+        interactionSource = interactionSource,
+        modifier = modifier,
+        thumb = thumb,
+        colors = colors,
+    )
+}
+
+@Composable
+public fun Slider(
+    state: SliderState,
+    colors: SliderColors,
+    modifier: Modifier = Modifier,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    thumb: @Composable (SliderState) -> Unit,
+) {
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
     val tap = Modifier.pointerInput(state, interactionSource) {
         detectTapGestures(
@@ -79,8 +95,7 @@ public fun Slider(
                 disabledRange = state.disabledRangeAsFractions,
             )
         },
-        onDimensionsResolved = state::updateDimensions,
-        value = state.valueAsFraction,
+        state = state,
     )
 }
 
