@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
 import kotlinx.coroutines.coroutineScope
 
 /**
@@ -53,13 +54,7 @@ public class SliderState(
     override fun dispatchRawDelta(delta: Float) {
         val newRawOffset = rawOffset + delta
         val userValue = scaleToUserValue(newRawOffset)
-        if (userValue != value) {
-            if (onValueChange != null) {
-                onValueChange?.invoke(userValue)
-            } else {
-                rawOffset = newRawOffset
-            }
-        }
+        handleValueUpdate(userValue, newRawOffset)
     }
 
     override suspend fun drag(
@@ -71,9 +66,23 @@ public class SliderState(
         isDragging = false
     }
 
+    internal fun handlePress(offset: Offset) {
+        println(offset)
+        val userValue = scaleToUserValue(offset.x)
+        handleValueUpdate(userValue, offset.x)
+    }
+
     internal fun updateDimensions(totalWidth: Float, thumbWidth: Float) {
         this.totalWidth = totalWidth
         this.thumbWidth = thumbWidth
+    }
+
+    private fun handleValueUpdate(value: Float, offset: Float) {
+        if (onValueChange != null) {
+            onValueChange?.invoke(value)
+        } else {
+            rawOffset = offset
+        }
     }
 
     private fun scaleToUserValue(offset: Float): Float {

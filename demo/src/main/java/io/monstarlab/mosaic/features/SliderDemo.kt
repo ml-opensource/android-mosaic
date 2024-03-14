@@ -31,8 +31,7 @@ fun SliderDemo() = Scaffold(modifier = Modifier) {
     Column(
         modifier = Modifier
             .padding(it)
-            .padding(16.dp)
-            .background(Color.LightGray),
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
         MaterialSlider(
@@ -74,8 +73,12 @@ fun MosaicSliderDemo(
             horizontalArrangement = Arrangement.Start,
             modifier = Modifier,
         ) {
-            Text(text = range.start.toString())
+            Text(
+                text = range.start.toString(),
+                modifier = Modifier.weight(0.2f),
+            )
             Slider(
+                modifier = Modifier.weight(0.8f),
                 value = value,
                 onValueChange = { value = it },
                 colors = SliderColors(Color.Black),
@@ -91,8 +94,11 @@ fun MosaicSliderDemo(
                     }
                 },
             )
+            Text(
+                text = range.endInclusive.toString(),
+                modifier = Modifier.weight(0.2f),
+            )
         }
-        Text(text = range.endInclusive.toString())
     }
 }
 

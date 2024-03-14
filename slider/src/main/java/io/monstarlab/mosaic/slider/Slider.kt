@@ -1,7 +1,9 @@
 package io.monstarlab.mosaic.slider
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
@@ -45,17 +48,27 @@ public fun Slider(
     state.range = range
     state.onValueChange = onValueChange
 
-    val draggable = modifier.draggable(
+    val tap = Modifier.pointerInput(state, interactionSource) {
+        detectTapGestures(
+            onPress = { state.handlePress(it) },
+        )
+    }
+
+    val drag = Modifier.draggable(
         state = state,
         orientation = Orientation.Horizontal,
         enabled = true,
         interactionSource = interactionSource,
-        startDragImmediately = true,
+        startDragImmediately = state.isDragging,
         reverseDirection = isRtl,
+        onDragStopped = {},
     )
 
     SliderLayout(
-        modifier = modifier.then(draggable),
+        modifier = modifier
+            .focusable(true, interactionSource)
+            .then(tap)
+            .then(drag),
         thumb = thumb,
         track = {
             SliderTrack(

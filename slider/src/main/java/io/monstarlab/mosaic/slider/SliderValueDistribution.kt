@@ -55,7 +55,6 @@ public interface SliderValueDistribution {
     }
 }
 
-
 /**
  * Represents a parabolic distribution strategy for slider values.
  *
