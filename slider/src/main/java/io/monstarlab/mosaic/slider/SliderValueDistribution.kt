@@ -55,6 +55,12 @@ public interface SliderValueDistribution {
     }
 }
 
+internal fun SliderValueDistribution.interpolate(
+    range: ClosedFloatingPointRange<Float>,
+): ClosedFloatingPointRange<Float> {
+    return interpolate(range.start)..interpolate(range.endInclusive)
+}
+
 /**
  * Represents a parabolic distribution strategy for slider values.
  *

@@ -93,19 +93,24 @@ public class SliderState(
         subrange: ClosedFloatingPointRange<Float>,
     ): ClosedFloatingPointRange<Float> {
         if (subrange.isEmpty()) return subrange
-        val start = valueDistribution.interpolate(range.start)
-        val end = valueDistribution.interpolate(range.endInclusive)
-        val subStart = valueDistribution.interpolate(subrange.start)
-        val subEnd = valueDistribution.interpolate(subrange.endInclusive)
-        return calcFraction(start, end, subStart)..calcFraction(start, end, subEnd)
+        val interpolatedRange = valueDistribution.interpolate(range)
+        val interpolatedSubrange = valueDistribution.interpolate(subrange)
+        return calcFraction(
+            interpolatedRange.start,
+            interpolatedRange.endInclusive,
+            interpolatedSubrange.start,
+        )..calcFraction(
+            interpolatedRange.start,
+            interpolatedRange.endInclusive,
+            interpolatedSubrange.endInclusive,
+        )
     }
 
     private fun scaleToUserValue(offset: Float): Float {
-        val rangeStart = valueDistribution.interpolate(range.start)
-        val rangeEnd = valueDistribution.interpolate(range.endInclusive)
-        val scaledUserValue = scale(0f, totalWidth, offset, rangeStart, rangeEnd)
+        val range = valueDistribution.interpolate(range)
+        val scaledUserValue = scale(0f, totalWidth, offset, range.start, range.endInclusive)
         return valueDistribution.inverse(scaledUserValue)
-            .coerceIn(range)
+            .coerceIn(this.range)
             .coerceIntoDisabledRange()
     }
 
@@ -121,10 +126,15 @@ public class SliderState(
 
     private fun scaleToOffset(value: Float): Float {
         val coerced = value.coerceIn(range).coerceIntoDisabledRange()
-        val rangeStart = valueDistribution.interpolate(range.start)
-        val rangeEnd = valueDistribution.interpolate(range.endInclusive)
+        val interpolatedRange = valueDistribution.interpolate(range)
         val interpolated = valueDistribution.interpolate(coerced)
-        return scale(rangeStart, rangeEnd, interpolated, 0f, totalWidth)
+        return scale(
+            interpolatedRange.start,
+            interpolatedRange.endInclusive,
+            interpolated,
+            0f,
+            totalWidth,
+        )
     }
 }
 
