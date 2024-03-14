@@ -38,15 +38,17 @@ public fun Slider(
     modifier: Modifier = Modifier,
     valueDistribution: SliderValueDistribution = SliderValueDistribution.Linear,
     range: ClosedFloatingPointRange<Float> = 0f..1f,
+    disabledRange: ClosedFloatingPointRange<Float> = EmptyRange,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     thumb: @Composable () -> Unit = { DefaultSliderThumb(colors = colors) },
 ) {
-    val state = rememberSliderState(value, valueDistribution)
+    val state = rememberSliderState(value, valueDistribution, disabledRange)
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
+    state.onValueChange = onValueChange
     state.value = value
     state.range = range
-    state.onValueChange = onValueChange
+    state.disabledRange = disabledRange
 
     val tap = Modifier.pointerInput(state, interactionSource) {
         detectTapGestures(
@@ -74,6 +76,7 @@ public fun Slider(
             SliderTrack(
                 progress = state.valueAsFraction,
                 colors = colors,
+                disabledRange = state.disabledRangeAsFractions,
             )
         },
         onDimensionsResolved = state::updateDimensions,
@@ -93,6 +96,8 @@ internal fun DefaultSliderThumb(colors: SliderColors) {
     )
 }
 
+internal val EmptyRange = 0f..0f
+
 @Preview
 @Composable
 private fun PreviewSlider() {
@@ -100,5 +105,6 @@ private fun PreviewSlider() {
         value = 0.5f,
         onValueChange = {},
         colors = SliderColors(Color.Yellow),
+        disabledRange = 0.8f..1f,
     )
 }

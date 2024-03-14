@@ -19,32 +19,37 @@ import kotlinx.coroutines.coroutineScope
  */
 public class SliderState(
     value: Float,
+    disabledRange: ClosedFloatingPointRange<Float>,
     private val valueDistribution: SliderValueDistribution,
 ) : DraggableState {
 
     internal var range: ClosedFloatingPointRange<Float> = 0f..1f
+    internal var disabledRange by mutableStateOf(disabledRange)
     internal var onValueChange: ((Float) -> Unit)? = null
     internal var isDragging by mutableStateOf(false)
         private set
-
     private var totalWidth by mutableFloatStateOf(0f)
     private var thumbWidth by mutableFloatStateOf(0f)
 
     private var rawOffset by mutableFloatStateOf(scaleToOffset(value))
     private val scrollMutex = MutatorMutex()
 
-    internal val valueAsFraction: Float get() {
-        return calcFraction(0f, totalWidth, rawOffset)
-    }
+    internal val valueAsFraction: Float
+        get() {
+            return calcFraction(0f, totalWidth, rawOffset)
+        }
+
+    internal val disabledRangeAsFractions: ClosedFloatingPointRange<Float>
+        get() = coerceRange(disabledRange)
 
     /**
      * Current value of the slider
      * If value of the slider is out of the [range] it will be coerced into it
      */
     public var value: Float
-        get() = scaleToUserValue(rawOffset).coerceIn(range)
+        get() = scaleToUserValue(rawOffset)
         set(value) {
-            rawOffset = scaleToOffset(value.coerceIn(range))
+            rawOffset = scaleToOffset(value)
         }
 
     private val dragScope: DragScope = object : DragScope {
@@ -67,7 +72,6 @@ public class SliderState(
     }
 
     internal fun handlePress(offset: Offset) {
-        println(offset)
         val userValue = scaleToUserValue(offset.x)
         handleValueUpdate(userValue, offset.x)
     }
@@ -85,17 +89,41 @@ public class SliderState(
         }
     }
 
+    private fun coerceRange(
+        subrange: ClosedFloatingPointRange<Float>,
+    ): ClosedFloatingPointRange<Float> {
+        if (subrange.isEmpty()) return subrange
+        val start = valueDistribution.interpolate(range.start)
+        val end = valueDistribution.interpolate(range.endInclusive)
+        val subStart = valueDistribution.interpolate(subrange.start)
+        val subEnd = valueDistribution.interpolate(subrange.endInclusive)
+        return calcFraction(start, end, subStart)..calcFraction(start, end, subEnd)
+    }
+
     private fun scaleToUserValue(offset: Float): Float {
         val rangeStart = valueDistribution.interpolate(range.start)
         val rangeEnd = valueDistribution.interpolate(range.endInclusive)
         val scaledUserValue = scale(0f, totalWidth, offset, rangeStart, rangeEnd)
         return valueDistribution.inverse(scaledUserValue)
+            .coerceIn(range)
+            .coerceIntoDisabledRange()
+    }
+
+    private fun Float.coerceIntoDisabledRange(): Float {
+        if (disabledRange.isEmpty()) return this
+        // check if disabled range is on the left or right
+        return if (disabledRange.start == range.start) {
+            coerceAtLeast(disabledRange.endInclusive)
+        } else {
+            coerceAtMost(disabledRange.start)
+        }
     }
 
     private fun scaleToOffset(value: Float): Float {
+        val coerced = value.coerceIn(range).coerceIntoDisabledRange()
         val rangeStart = valueDistribution.interpolate(range.start)
         val rangeEnd = valueDistribution.interpolate(range.endInclusive)
-        val interpolated = valueDistribution.interpolate(value)
+        val interpolated = valueDistribution.interpolate(coerced)
         return scale(rangeStart, rangeEnd, interpolated, 0f, totalWidth)
     }
 }
@@ -104,6 +132,7 @@ public class SliderState(
 public fun rememberSliderState(
     value: Float,
     valueDistribution: SliderValueDistribution = SliderValueDistribution.Linear,
+    disabledRange: ClosedFloatingPointRange<Float> = EmptyRange,
 ): SliderState {
-    return remember { SliderState(value, valueDistribution) }
+    return remember { SliderState(value, disabledRange, valueDistribution) }
 }

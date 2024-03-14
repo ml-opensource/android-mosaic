@@ -45,10 +45,12 @@ fun SliderDemo() = Scaffold(modifier = Modifier) {
             label = "Linear division strategy",
             range = 0f..1000f,
             valuesDistribution = SliderValueDistribution.Linear,
+            disabledRange = 0f..500f,
         )
         MosaicSliderDemo(
             label = "Parabolic",
             range = 0f..1000f,
+            disabledRange = 800f..1000f,
             valuesDistribution = SliderValueDistribution.parabolic(
                 a = (1000 - 100 * 0.1f) / (1000 * 1000),
                 b = 0.1f,
@@ -64,6 +66,7 @@ fun MosaicSliderDemo(
     range: ClosedFloatingPointRange<Float>,
     valuesDistribution: SliderValueDistribution,
     modifier: Modifier = Modifier,
+    disabledRange: ClosedFloatingPointRange<Float> = 0f..0f,
 ) {
     Column(modifier) {
         Text(text = label)
@@ -81,9 +84,10 @@ fun MosaicSliderDemo(
                 modifier = Modifier.weight(0.8f),
                 value = value,
                 onValueChange = { value = it },
-                colors = SliderColors(Color.Black),
+                colors = SliderColors(Color.Black, disabled = Color.Red),
                 range = range,
                 valueDistribution = valuesDistribution,
+                disabledRange = disabledRange,
                 thumb = {
                     Box(
                         modifier = Modifier
