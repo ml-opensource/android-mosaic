@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,6 +21,7 @@ import androidx.compose.ui.unit.LayoutDirection
  *
  * @param value the current value of the slider
  * @param onValueChange a callback function invoked when the slider value changes
+ * @param enabled - determines whether the user can interact with the slide or not
  * @param colors the colors used to customize the appearance of the slider
  * @param modifier the modifier to be applied to the slider
  * @param valueDistribution the strategy for distributing slider values
@@ -32,16 +35,31 @@ public fun Slider(
     onValueChange: (Float) -> Unit,
     colors: SliderColors,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     valueDistribution: SliderValueDistribution = SliderValueDistribution.Linear,
     range: ClosedFloatingPointRange<Float> = 0f..1f,
     disabledRange: ClosedFloatingPointRange<Float> = EmptyRange,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    thumb: @Composable (SliderState) -> Unit = { DefaultSliderThumb(colors = colors) },
+    thumb: @Composable (
+        SliderState,
+    ) -> Unit = { DefaultSliderThumb(colors = colors, enabled = enabled) },
 ) {
     val state = rememberSliderState(value, range, valueDistribution, disabledRange)
-
     state.onValueChange = onValueChange
     state.value = value
+
+    // Workaround for the initial value that might belong into disabled range
+    // The initial value is remembered
+    val initialValue = remember { mutableFloatStateOf(value) }
+
+    // In case initial value differs from the value inside the state
+    // this means the value has been coerced into it
+    // for this case the change of value must be explicitly notified to the receiver
+    LaunchedEffect(initialValue) {
+        if (initialValue.value != state.value) {
+            onValueChange(state.value)
+        }
+    }
 
     Slider(
         state = state,
@@ -49,6 +67,7 @@ public fun Slider(
         modifier = modifier,
         thumb = thumb,
         colors = colors,
+        enabled = enabled,
     )
 }
 
@@ -56,7 +75,8 @@ public fun Slider(
  * A composable function that creates a slider UI component.
  * @param state of the Slider where the latest slider value is stored
  * @param colors the colors used to customize the appearance of the slider
- * @param modifier the modifier to be applied to the slider
+ * @param modifier the modifier to be applied to the slider,
+ * @param enabled - determines whether the user can interact with the slide or not
  * @param interactionSource the interaction source used to handle user input interactions
  * @param thumb the composable function used to render the slider thumb
  */
@@ -65,17 +85,18 @@ public fun Slider(
     state: SliderState,
     colors: SliderColors,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     thumb: @Composable (SliderState) -> Unit,
 ) {
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-    val tap = Modifier.sliderTapModifier(state, interactionSource)
-    val drag = Modifier.sliderDragModifier(state, interactionSource, isRtl)
+    val tap = Modifier.sliderTapModifier(state, enabled, interactionSource)
+    val drag = Modifier.sliderDragModifier(state, enabled, interactionSource, isRtl)
 
     SliderLayout(
         modifier = modifier
-            .sliderSemantics(state, true)
-            .focusable(true, interactionSource)
+            .sliderSemantics(state, enabled)
+            .focusable(enabled, interactionSource)
             .then(tap)
             .then(drag),
         thumb = thumb,
@@ -84,6 +105,7 @@ public fun Slider(
                 progress = state.valueAsFraction,
                 colors = colors,
                 disabledRange = state.disabledRangeAsFractions,
+                enabled = enabled,
             )
         },
         state = state,
@@ -91,12 +113,12 @@ public fun Slider(
 }
 
 @Composable
-internal fun DefaultSliderThumb(colors: SliderColors) {
+internal fun DefaultSliderThumb(enabled: Boolean, colors: SliderColors) {
     Box(
         modifier = Modifier
             .size(SliderDefaults.ThumbSize)
             .background(
-                color = colors.active,
+                color = colors.thumbColor(enabled),
                 shape = CircleShape,
             ),
     )
@@ -110,7 +132,18 @@ private fun PreviewSlider() {
     Slider(
         value = 0.5f,
         onValueChange = {},
-        colors = SliderColors(Color.Yellow),
+        colors = SliderColors(Color.Yellow, Color.Red),
+        disabledRange = 0.8f..1f,
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewDisabledSlider() {
+    Slider(
+        value = 0.5f,
+        onValueChange = {},
+        colors = SliderColors(Color.Yellow, Color.Red),
         disabledRange = 0.8f..1f,
     )
 }

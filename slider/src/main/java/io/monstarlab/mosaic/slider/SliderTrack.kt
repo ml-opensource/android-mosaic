@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 internal fun SliderTrack(
     progress: Float,
+    enabled: Boolean,
     colors: SliderColors,
     modifier: Modifier = Modifier,
     disabledRange: ClosedFloatingPointRange<Float> = 0f..0f,
@@ -26,13 +27,13 @@ internal fun SliderTrack(
             .drawBehind {
                 val activeRectWidth = size.width * progress
                 drawRect(
-                    color = colors.active,
+                    color = colors.activeTrackColor(enabled),
                     topLeft = Offset.Zero,
                     size = Size(activeRectWidth, size.height),
                 )
 
                 drawRect(
-                    color = colors.inactive,
+                    color = colors.inactiveTrackColor(enabled),
                     topLeft = Offset(activeRectWidth, 0f),
                     size = Size(size.width - activeRectWidth, size.height),
                 )
@@ -41,7 +42,7 @@ internal fun SliderTrack(
                     val disabledStart = size.width * disabledRange.start
                     val disabledEnd = size.width * disabledRange.endInclusive
                     drawRect(
-                        color = colors.disabled,
+                        color = colors.disabledRangeTrackColor,
                         topLeft = Offset(size.width * disabledRange.start, 0f),
                         size = Size(disabledEnd - disabledStart, size.height),
                     )
@@ -52,10 +53,22 @@ internal fun SliderTrack(
 
 @Preview
 @Composable
-private fun PreviewSliderTrack() {
+private fun PreviewEnabledSliderTrack() {
     SliderTrack(
         progress = 0.5f,
-        colors = SliderColors(Color.Yellow),
+        colors = SliderColors(Color.Yellow, Color.Red),
         disabledRange = 0.8f..1f,
+        enabled = true,
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewDisabledSliderTrack() {
+    SliderTrack(
+        progress = 0.5f,
+        colors = SliderColors(Color.Yellow, Color.Red),
+        disabledRange = 0.8f..1f,
+        enabled = false,
     )
 }

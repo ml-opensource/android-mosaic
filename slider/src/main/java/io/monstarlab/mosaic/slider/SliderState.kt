@@ -18,38 +18,59 @@ import kotlinx.coroutines.coroutineScope
  * Responsible for managing internal properties such as offset value and drag / click behaviours
  */
 public class SliderState(
-    value: Float,
+    initialValue: Float,
     public val range: ClosedFloatingPointRange<Float>,
     private val disabledRange: ClosedFloatingPointRange<Float>,
     private val valueDistribution: SliderValueDistribution,
 ) : DraggableState {
 
+    /**
+     * Optional callback for notifying the change of value
+     * In case provided, the "value" state is stored outside in another component
+     * And it is the responsibility of a client to manage the value state
+     */
     internal var onValueChange: ((Float) -> Unit)? = null
     internal var isDragging by mutableStateOf(false)
         private set
     private var totalWidth by mutableFloatStateOf(0f)
     private var thumbWidth by mutableFloatStateOf(0f)
 
-    private var rawOffset by mutableFloatStateOf(scaleToOffset(value))
+    /**
+     * Internal state to hold the User Value (coerced and in range)
+     * Serves as source of truth for the client
+     */
+    private var valueState by mutableFloatStateOf(initialValue)
+
+    /**
+     * Internally stored offset, used simply for the drag & click gestures
+     */
+    private var rawOffset by mutableFloatStateOf(scaleToOffset(initialValue))
     private val scrollMutex = MutatorMutex()
-
-    internal val valueAsFraction: Float
-        get() {
-            return calcFraction(0f, totalWidth, rawOffset)
-        }
-
-    internal val disabledRangeAsFractions: ClosedFloatingPointRange<Float>
-        get() = coerceRangeIntoFractions(disabledRange)
 
     /**
      * Current value of the slider
      * If value of the slider is out of the [range] it will be coerced into it
+     * If the value of the slider is inside the [disabledRange] It will be coerced int closes available range that is not disabled
+     *
      */
     public var value: Float
-        get() = scaleToUserValue(rawOffset)
+        get() = valueState.coerceIntoDisabledRange()
         set(value) {
-            rawOffset = scaleToOffset(value)
+            valueState = value.coerceIntoDisabledRange()
         }
+
+    /**
+     * Internal value returned as fraction, used for displaying and specifying
+     * the "real" position of the thumb
+     */
+    internal val valueAsFraction: Float
+        get() {
+            val interpolated = valueDistribution.interpolate(value)
+            return calcFraction(range.start, range.endInclusive, interpolated)
+        }
+
+    internal val disabledRangeAsFractions: ClosedFloatingPointRange<Float>
+        get() = coerceRangeIntoFractions(disabledRange)
 
     private val dragScope: DragScope = object : DragScope {
         override fun dragBy(pixels: Float): Unit = dispatchRawDelta(pixels)
@@ -81,10 +102,11 @@ public class SliderState(
     }
 
     private fun handleValueUpdate(value: Float, offset: Float) {
+        rawOffset = offset
         if (onValueChange != null) {
             onValueChange?.invoke(value)
         } else {
-            rawOffset = offset
+            valueState = value
         }
     }
 
@@ -150,7 +172,7 @@ public fun rememberSliderState(
 ): SliderState {
     return remember(range, valueDistribution, disabledRange) {
         SliderState(
-            value = value,
+            initialValue = value,
             range = range,
             disabledRange = disabledRange,
             valueDistribution = valueDistribution,

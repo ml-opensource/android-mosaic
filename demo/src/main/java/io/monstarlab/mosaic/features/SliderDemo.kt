@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,13 +62,31 @@ fun SliderDemo() = Scaffold(modifier = Modifier) {
 
         Slider(
             state = rememberSliderState(value = 0.5f),
-            colors = SliderColors(Color.Yellow),
+            colors = SliderColors(Color.Magenta, Color.Red),
         ) {
             Box(
                 modifier = Modifier
                     .size(32.dp)
                     .background(Color.Black),
             )
+        }
+
+        Slider(
+            state = rememberSliderState(value = 0.5f),
+            colors = SliderColors(Color.Black),
+            enabled = true,
+        ) {
+            Box(modifier = Modifier.background(Color.Red, shape = CircleShape).size(32.dp))
+        }
+
+        var v by remember { mutableFloatStateOf(0.5f) }
+        Slider(
+            value = v,
+            onValueChange = { v = it },
+            colors = SliderColors(Color.Black),
+            enabled = false,
+        ) {
+            Box(modifier = Modifier.background(Color.Red, shape = CircleShape).size(32.dp))
         }
     }
 }
@@ -96,7 +115,7 @@ fun MosaicSliderDemo(
                 modifier = Modifier.weight(0.8f),
                 value = value,
                 onValueChange = { value = it },
-                colors = SliderColors(Color.Black, disabled = Color.Red),
+                colors = SliderColors(Color.Black, disabledRangeTrackColor = Color.Red),
                 range = range,
                 valueDistribution = valuesDistribution,
                 disabledRange = disabledRange,

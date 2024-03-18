@@ -13,12 +13,13 @@ import androidx.compose.ui.semantics.setProgress
 
 internal fun Modifier.sliderDragModifier(
     state: SliderState,
+    enabled: Boolean,
     interactionSource: MutableInteractionSource,
     isRtl: Boolean,
 ): Modifier = this.draggable(
     state = state,
     orientation = Orientation.Horizontal,
-    enabled = true,
+    enabled = enabled,
     interactionSource = interactionSource,
     startDragImmediately = state.isDragging,
     reverseDirection = isRtl,
@@ -27,12 +28,18 @@ internal fun Modifier.sliderDragModifier(
 
 internal fun Modifier.sliderTapModifier(
     state: SliderState,
+    enabled: Boolean,
     interactionSource: MutableInteractionSource,
 ): Modifier {
-    return this.pointerInput(state, interactionSource) {
-        detectTapGestures(
-            onPress = { state.handlePress(it) },
-        )
+    return if (enabled) {
+        this.pointerInput(state, interactionSource) {
+            detectTapGestures(
+                onPress = { state.handlePress(it) },
+                onTap = { state.dispatchRawDelta(0f) },
+            )
+        }
+    } else {
+        this
     }
 }
 
