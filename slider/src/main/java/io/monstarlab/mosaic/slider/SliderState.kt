@@ -54,9 +54,9 @@ public class SliderState(
      *
      */
     public var value: Float
-        get() = valueState.coerceIntoDisabledRange()
+        get() = valueState
         set(value) {
-            valueState = value.coerceIntoDisabledRange()
+            valueState = coerceValue(value)
         }
 
     /**
@@ -110,10 +110,45 @@ public class SliderState(
         }
     }
 
+    /**
+     * Scales offset in to the value that user should see
+     */
+    private fun scaleToUserValue(offset: Float): Float {
+        val range = valueDistribution.interpolate(range)
+        val scaledUserValue = scale(0f, totalWidth, offset, range.start, range.endInclusive)
+        return coerceValue(valueDistribution.inverse(scaledUserValue))
+    }
+
+    /**
+     * Converts value of the user into the raw offset on the track
+     */
+    private fun scaleToOffset(value: Float): Float {
+        val coerced = coerceValue(value)
+        val interpolatedRange = valueDistribution.interpolate(range)
+        val interpolated = valueDistribution.interpolate(coerced)
+        return scale(
+            interpolatedRange.start,
+            interpolatedRange.endInclusive,
+            interpolated,
+            0f,
+            totalWidth,
+        )
+    }
+
     internal fun coerceValue(value: Float): Float {
         return value
             .coerceIn(range)
             .coerceIntoDisabledRange()
+    }
+
+    private fun Float.coerceIntoDisabledRange(): Float {
+        if (disabledRange.isEmpty()) return this
+        // check if disabled range is on the left or right
+        return if (disabledRange.start == range.start) {
+            coerceAtLeast(disabledRange.endInclusive)
+        } else {
+            coerceAtMost(disabledRange.start)
+        }
     }
 
     private fun coerceRangeIntoFractions(
@@ -131,35 +166,6 @@ public class SliderState(
             interpolatedRange.endInclusive,
             interpolatedSubrange.endInclusive,
         )
-    }
-
-    private fun scaleToUserValue(offset: Float): Float {
-        val range = valueDistribution.interpolate(range)
-        val scaledUserValue = scale(0f, totalWidth, offset, range.start, range.endInclusive)
-        return coerceValue(valueDistribution.inverse(scaledUserValue))
-    }
-
-    private fun scaleToOffset(value: Float): Float {
-        val coerced = coerceValue(value)
-        val interpolatedRange = valueDistribution.interpolate(range)
-        val interpolated = valueDistribution.interpolate(coerced)
-        return scale(
-            interpolatedRange.start,
-            interpolatedRange.endInclusive,
-            interpolated,
-            0f,
-            totalWidth,
-        )
-    }
-
-    private fun Float.coerceIntoDisabledRange(): Float {
-        if (disabledRange.isEmpty()) return this
-        // check if disabled range is on the left or right
-        return if (disabledRange.start == range.start) {
-            coerceAtLeast(disabledRange.endInclusive)
-        } else {
-            coerceAtMost(disabledRange.start)
-        }
     }
 }
 
