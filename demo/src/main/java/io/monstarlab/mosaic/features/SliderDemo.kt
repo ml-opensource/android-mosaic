@@ -1,22 +1,40 @@
 package io.monstarlab.mosaic.features
 
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.monstarlab.mosaic.slider.Slider
@@ -41,99 +59,147 @@ fun SliderDemo() = Scaffold(modifier = Modifier) {
             onValueChange = { materialSliderValue = it },
             valueRange = 0f..100f,
         )
-        Text(text = materialSliderValue.toString())
 
-        MosaicSliderDemo(
-            label = "Linear division strategy",
-            range = 0f..1000f,
-            valuesDistribution = SliderValueDistribution.Linear,
-            disabledRange = 0f..500f,
-        )
-        MosaicSliderDemo(
-            label = "Parabolic",
-            range = 0f..1000f,
-            disabledRange = 800f..1000f,
-            valuesDistribution = SliderValueDistribution.parabolic(
-                a = (1000 - 100 * 0.1f) / (1000 * 1000),
-                b = 0.1f,
-                c = 1f,
-            ),
-        )
-
-        Slider(
-            state = rememberSliderState(value = 0.5f),
-            colors = SliderColors(Color.Magenta, Color.Red),
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(Color.Black),
-            )
-        }
-
-        Slider(
-            state = rememberSliderState(value = 0.5f),
-            colors = SliderColors(Color.Black),
-            enabled = true,
-        ) {
-            Box(modifier = Modifier.background(Color.Red, shape = CircleShape).size(32.dp))
-        }
-
-        var v by remember { mutableFloatStateOf(0.5f) }
-        Slider(
-            value = v,
-            onValueChange = { v = it },
-            colors = SliderColors(Color.Black),
-            enabled = false,
-        ) {
-            Box(modifier = Modifier.background(Color.Red, shape = CircleShape).size(32.dp))
-        }
+        MosaicSliderDemo()
     }
 }
 
 @Composable
-fun MosaicSliderDemo(
-    label: String,
-    range: ClosedFloatingPointRange<Float>,
-    valuesDistribution: SliderValueDistribution,
-    modifier: Modifier = Modifier,
-    disabledRange: ClosedFloatingPointRange<Float> = 0f..0f,
-) {
-    Column(modifier) {
-        Text(text = label)
+fun MosaicSliderDemo() {
+    Column {
+        val colors = SliderColors(
+            activeTrackColor = Color.Black,
+            disabledRangeTrackColor = Color.Red,
+            thumbColor = Color.Yellow,
+        )
+        var enabled by remember { mutableStateOf(true) }
+        var isCustom by remember { mutableStateOf(false) }
+        var linearDistribution by remember { mutableStateOf(false) }
 
-        var value by remember { mutableFloatStateOf(50f) }
-        Row(
-            horizontalArrangement = Arrangement.Start,
-            modifier = Modifier,
-        ) {
-            Text(
-                text = range.start.toString(),
-                modifier = Modifier.weight(0.2f),
-            )
-            Slider(
-                modifier = Modifier.weight(0.8f),
-                value = value,
-                onValueChange = { value = it },
-                colors = SliderColors(Color.Black, disabledRangeTrackColor = Color.Red),
-                range = range,
-                valueDistribution = valuesDistribution,
-                disabledRange = disabledRange,
-                thumb = {
-                    Box(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .background(Color.Yellow),
-                    ) {
-                        Text(text = value.roundToInt().toString())
-                    }
-                },
-            )
-            Text(
-                text = range.endInclusive.toString(),
-                modifier = Modifier.weight(0.2f),
+        val modifier = if (isCustom) {
+            Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .height(15.dp)
+        } else {
+            Modifier
+        }
+
+        val parabolic: SliderValueDistribution = remember {
+            SliderValueDistribution.parabolic(
+                a = (1000 - 100 * 0.1f) / (1000 * 1000),
+                b = 0.1f,
+                c = 1f,
             )
         }
+
+        val state = rememberSliderState(
+            value = 500f,
+            valueDistribution = if (linearDistribution) {
+                SliderValueDistribution.Linear
+            } else {
+                parabolic
+            },
+            range = 0f..1000f,
+        )
+
+        Slider(
+            modifier = modifier,
+            enabled = enabled,
+            state = state,
+            colors = colors,
+            thumb = {
+                if (isCustom) {
+                    val transition = rememberInfiniteTransition(label = "")
+                    val color = transition.animateColor(
+                        initialValue = Color.Red,
+                        targetValue = Color.Green,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(1000, easing = LinearEasing),
+                            repeatMode = RepeatMode.Reverse,
+                        ),
+                        label = "",
+                    )
+
+                    val rotation = transition.animateFloat(
+                        initialValue = 0f,
+                        targetValue = 360f,
+                        animationSpec = infiniteRepeatable(
+                            tween(5000, easing = LinearEasing),
+                            repeatMode = RepeatMode.Restart,
+                        ),
+                        label = "",
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .rotate(rotation.value)
+                            .size(48.dp)
+                            .background(color.value),
+                    )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .size(16.dp)
+                            .background(colors.thumbColor(enabled), CircleShape),
+                    )
+                }
+            },
+
+        )
+
+        Text(
+            text = "Current value: ${state.value.roundToInt()}",
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyLarge,
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
+        ) {
+            LabeledSwitch(
+                label = "Slider enabled",
+                checked = enabled,
+                onValueChange = { enabled = it },
+            )
+
+            LabeledSwitch(
+                label = "Customise",
+                checked = isCustom,
+                onValueChange = { isCustom = it },
+            )
+        }
+
+        LabeledSwitch(
+            label = "Use linear distribution or parabolic",
+            checked = linearDistribution,
+            onValueChange = { linearDistribution = it },
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+        )
+    }
+}
+
+@Composable
+private fun LabeledSwitch(
+    label: String,
+    checked: Boolean,
+    onValueChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+
+    ) {
+        Text(text = label, textAlign = TextAlign.Center)
+        Spacer(modifier = Modifier.height(3.dp))
+        Switch(
+            checked = checked,
+            onCheckedChange = onValueChange,
+        )
     }
 }
 

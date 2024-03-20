@@ -75,7 +75,8 @@ public fun Slider(
  * A composable function that creates a slider UI component.
  * @param state of the Slider where the latest slider value is stored
  * @param colors the colors used to customize the appearance of the slider
- * @param modifier the modifier to be applied to the slider,
+ * @param modifier the modifier to be applied to the slider overall. Use to manipulate the behaviour in other layouts,
+ * @param trackModifier - Modifier to be applied to the Track, U
  * @param enabled - determines whether the user can interact with the slide or not
  * @param interactionSource the interaction source used to handle user input interactions
  * @param thumb the composable function used to render the slider thumb
@@ -90,15 +91,13 @@ public fun Slider(
     thumb: @Composable (SliderState) -> Unit,
 ) {
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-    val tap = Modifier.sliderTapModifier(state, enabled, interactionSource)
-    val drag = Modifier.sliderDragModifier(state, enabled, interactionSource, isRtl)
 
     SliderLayout(
-        modifier = modifier
+        modifier = Modifier
             .sliderSemantics(state, enabled)
             .focusable(enabled, interactionSource)
-            .then(tap)
-            .then(drag),
+            .sliderTapModifier(state, enabled, interactionSource)
+            .sliderDragModifier(state, enabled, interactionSource, isRtl),
         thumb = thumb,
         track = {
             SliderTrack(
@@ -106,6 +105,7 @@ public fun Slider(
                 colors = colors,
                 disabledRange = state.disabledRangeAsFractions,
                 enabled = enabled,
+                modifier = modifier,
             )
         },
         state = state,

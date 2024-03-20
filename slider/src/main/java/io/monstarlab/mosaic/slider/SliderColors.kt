@@ -39,7 +39,7 @@ public class SliderColors(
      * Color of the thumb when the Slider is disabled
      * Only applied when the default thumb is used
      */
-    public val disabledThumbColor: Color = disabledRangeTrackColor,
+    public val disabledThumbColor: Color = inactiveTrackColor,
 ) {
     @Stable
     public fun activeTrackColor(enabled: Boolean): Color {
