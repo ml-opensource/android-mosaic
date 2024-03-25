@@ -22,8 +22,7 @@ internal fun Modifier.sliderDragModifier(
     enabled = enabled,
     interactionSource = interactionSource,
     startDragImmediately = state.isDragging,
-    reverseDirection = isRtl,
-    onDragStopped = {},
+    reverseDirection = isRtl
 )
 
 internal fun Modifier.sliderTapModifier(
@@ -35,7 +34,6 @@ internal fun Modifier.sliderTapModifier(
         this.pointerInput(state, interactionSource) {
             detectTapGestures(
                 onPress = { state.handlePress(it) },
-                onTap = { state.dispatchRawDelta(0f) },
             )
         }
     } else {

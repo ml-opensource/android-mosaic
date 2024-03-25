@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.LayoutDirection
 
 /**
  * A composable function that creates a slider UI component.
- *
  * @param value the current value of the slider
  * @param onValueChange a callback function invoked when the slider value changes
  * @param enabled - determines whether the user can interact with the slide or not
@@ -56,7 +55,7 @@ public fun Slider(
     // this means the value has been coerced into it
     // for this case the change of value must be explicitly notified to the receiver
     LaunchedEffect(initialValue) {
-        if (initialValue.value != state.value) {
+        if (initialValue.floatValue != state.value) {
             onValueChange(state.value)
         }
     }
@@ -75,8 +74,7 @@ public fun Slider(
  * A composable function that creates a slider UI component.
  * @param state of the Slider where the latest slider value is stored
  * @param colors the colors used to customize the appearance of the slider
- * @param modifier the modifier to be applied to the slider overall. Use to manipulate the behaviour in other layouts,
- * @param trackModifier - Modifier to be applied to the Track, U
+ * @param modifier the modifier to be applied to the slider.
  * @param enabled - determines whether the user can interact with the slide or not
  * @param interactionSource the interaction source used to handle user input interactions
  * @param thumb the composable function used to render the slider thumb

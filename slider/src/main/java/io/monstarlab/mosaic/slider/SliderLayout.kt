@@ -27,13 +27,13 @@ public fun SliderLayout(
                 thumb(state)
             }
         },
-    ) { mesuarables, constraints ->
+    ) { measurables, constraints ->
 
-        val thumbPlaceable = mesuarables
+        val thumbPlaceable = measurables
             .first { it.layoutId == SliderLayoutElements.Thumb }
             .measure(constraints)
 
-        val trackPlaceable = mesuarables
+        val trackPlaceable = measurables
             .first { it.layoutId == SliderLayoutElements.Track }
             .measure(
                 constraints.offset(
