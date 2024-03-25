@@ -22,7 +22,7 @@ internal fun Modifier.sliderDragModifier(
     enabled = enabled,
     interactionSource = interactionSource,
     startDragImmediately = state.isDragging,
-    reverseDirection = isRtl
+    reverseDirection = isRtl,
 )
 
 internal fun Modifier.sliderTapModifier(
