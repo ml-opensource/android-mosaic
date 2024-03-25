@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.kotlin.dokka)
+    alias(libs.plugins.gradle.maven.publish) apply false
 }
 
 
