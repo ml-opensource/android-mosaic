@@ -65,8 +65,9 @@ public class SliderState(
      */
     internal val valueAsFraction: Float
         get() {
-            val interpolated = valueDistribution.interpolate(value)
-            return calcFraction(range.start, range.endInclusive, interpolated)
+            val inverted = valueDistribution.inverse(value)
+            val invertedRange = valueDistribution.inverse(range)
+            return calcFraction(invertedRange.start, invertedRange.endInclusive, inverted)
         }
 
     internal val disabledRangeAsFractions: ClosedFloatingPointRange<Float>
@@ -114,9 +115,9 @@ public class SliderState(
      * Scales offset in to the value that user should see
      */
     private fun scaleToUserValue(offset: Float): Float {
-        val range = valueDistribution.interpolate(range)
-        val scaledUserValue = scale(0f, totalWidth, offset, range.start, range.endInclusive)
-        return coerceValue(valueDistribution.inverse(scaledUserValue))
+        val invertedRange = valueDistribution.inverse(range)
+        val value = scale(0f, totalWidth, offset, invertedRange.start, invertedRange.endInclusive)
+        return coerceValue(valueDistribution.interpolate(value))
     }
 
     /**
@@ -124,12 +125,12 @@ public class SliderState(
      */
     private fun scaleToOffset(value: Float): Float {
         val coerced = coerceValue(value)
-        val interpolatedRange = valueDistribution.interpolate(range)
-        val interpolated = valueDistribution.interpolate(coerced)
+        val invertedRange = valueDistribution.inverse(range)
+        val invertedValue = valueDistribution.inverse(coerced)
         return scale(
-            interpolatedRange.start,
-            interpolatedRange.endInclusive,
-            interpolated,
+            invertedRange.start,
+            invertedRange.endInclusive,
+            invertedValue,
             0f,
             totalWidth,
         )

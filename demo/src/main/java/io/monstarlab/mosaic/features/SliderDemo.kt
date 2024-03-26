@@ -40,26 +40,17 @@ import androidx.compose.ui.unit.dp
 import io.monstarlab.mosaic.slider.Slider
 import io.monstarlab.mosaic.slider.SliderColors
 import io.monstarlab.mosaic.slider.SliderValueDistribution
-import io.monstarlab.mosaic.slider.rememberSliderState
 import kotlin.math.roundToInt
 import androidx.compose.material3.Slider as MaterialSlider
 
 @Composable
 fun SliderDemo() = Scaffold(modifier = Modifier) {
-    var materialSliderValue by remember { mutableFloatStateOf(50f) }
-
     Column(
         modifier = Modifier
             .padding(it)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
-        MaterialSlider(
-            value = materialSliderValue,
-            onValueChange = { materialSliderValue = it },
-            valueRange = 0f..100f,
-        )
-
         MosaicSliderDemo()
     }
 }
@@ -76,6 +67,14 @@ fun MosaicSliderDemo() {
         var isCustom by remember { mutableStateOf(false) }
         var linearDistribution by remember { mutableStateOf(false) }
 
+        var sliderValue by remember { mutableFloatStateOf(500f) }
+
+        MaterialSlider(
+            value = sliderValue,
+            onValueChange = { sliderValue = it },
+            valueRange = 0f..1000f,
+        )
+
         val modifier = if (isCustom) {
             Modifier
                 .clip(RoundedCornerShape(16.dp))
@@ -85,28 +84,21 @@ fun MosaicSliderDemo() {
         }
 
         val parabolic: SliderValueDistribution = remember {
-            SliderValueDistribution.parabolic(
-                a = (1000 - 100 * 0.1f) / (1000 * 1000),
-                b = 0.1f,
-                c = 1f,
-            )
+            SliderValueDistribution.parabolic(a = 0.005f)
         }
 
-        val state = rememberSliderState(
-            value = 500f,
+        Slider(
+            value = sliderValue,
+            onValueChange = { sliderValue = it },
+            modifier = modifier,
+            enabled = enabled,
+            colors = colors,
+            range = 0f..1000f,
             valueDistribution = if (linearDistribution) {
                 SliderValueDistribution.Linear
             } else {
                 parabolic
             },
-            range = 0f..1000f,
-        )
-
-        Slider(
-            modifier = modifier,
-            enabled = enabled,
-            state = state,
-            colors = colors,
             thumb = {
                 if (isCustom) {
                     val transition = rememberInfiniteTransition(label = "")
@@ -148,7 +140,7 @@ fun MosaicSliderDemo() {
         )
 
         Text(
-            text = "Current value: ${state.value.roundToInt()}",
+            text = "Current value: ${sliderValue.roundToInt()}",
             modifier = Modifier.align(Alignment.CenterHorizontally),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,

@@ -35,7 +35,11 @@ public interface SliderValueDistribution {
          * @param c constant term in the parabolic equation
          * @return a [SliderValueDistribution] instance with a parabolic distribution strategy
          */
-        public fun parabolic(a: Float, b: Float, c: Float): SliderValueDistribution {
+        public fun parabolic(
+            a: Float,
+            b: Float = 0f,
+            c: Float = 0f,
+        ): SliderValueDistribution {
             return ParabolicValueDistribution(a, b, c)
         }
 
@@ -61,6 +65,12 @@ internal fun SliderValueDistribution.interpolate(
     return interpolate(range.start)..interpolate(range.endInclusive)
 }
 
+internal fun SliderValueDistribution.inverse(
+    range: ClosedFloatingPointRange<Float>,
+): ClosedFloatingPointRange<Float> {
+    return inverse(range.start)..inverse(range.endInclusive)
+}
+
 /**
  * Represents a parabolic distribution strategy for slider values.
  *
@@ -79,13 +89,13 @@ public class ParabolicValueDistribution(
 ) : SliderValueDistribution {
 
     override fun inverse(value: Float): Float {
-        return a * (value * value) + b * value + c
-    }
-
-    override fun interpolate(value: Float): Float {
         if (value == 0f) return 0f
 
         val d = (b * b) - 4 * a * (c - value)
         return (-b + sqrt(d)) / (2 * a)
+    }
+
+    override fun interpolate(value: Float): Float {
+        return a * (value * value) + b * value + c
     }
 }
