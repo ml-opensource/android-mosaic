@@ -1,5 +1,6 @@
 package io.monstarlab.mosaic.slider
 
+import androidx.annotation.FloatRange
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -13,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun SliderTrack(
-    progress: Float,
+    @FloatRange(from = 0.0, to = 1.0) progress: Float,
     enabled: Boolean,
     colors: SliderColors,
     modifier: Modifier = Modifier,
