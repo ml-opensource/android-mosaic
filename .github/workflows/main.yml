@@ -1,0 +1,44 @@
+# GitHub Actions Workflow is created for testing and preparing the plugin release in the following steps:
+# - Remove Old Draft Releases
+# - Create New Draft Release
+# The workflow is triggered on push to the main branch
+#
+# GitHub Actions reference: https://help.github.com/en/actions
+#
+  on:
+    push:
+      branches:
+        - main
+
+  jobs:
+    main:
+      runs-on: ubuntu-latest
+      steps:
+        # Check out current repository
+        - name: Fetch Sources
+          uses: actions/checkout@v3
+
+        # Set up Java environment for the next steps
+        - name: Setup Java
+          uses: actions/setup-java@v3
+          with:
+            distribution: zulu
+            java-version: 17
+
+        # Remove old release drafts by using the curl request for the available releases with a draft flag
+        - name: Remove Old Release Drafts
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            gh api repos/{owner}/{repo}/releases \
+              --jq '.[] | select(.draft == true) | .id' \
+              | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
+
+        # Create a new release draft which is not publicly visible and requires manual acceptance
+        - name: Create Release Draft
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            gh release create v${{ needs.build.outputs.version }} \
+              --draft \
+              --title "v${{ needs.build.outputs.version }}" \
