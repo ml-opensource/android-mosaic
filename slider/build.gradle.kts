@@ -37,11 +37,7 @@ kotlin {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.compose.bom))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.graphics)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.ui.tooling)
-    implementation(libs.compose.foundation)
+    implementation(libs.bundles.compose.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

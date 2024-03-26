@@ -42,5 +42,13 @@ kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "kotlin" }
 mosaic-application = { id = "io.monstarlab.mosaic.application", version = "undefined" }
 mosaic-library = { id = "io.monstarlab.mosaic.library", version = "undefined" }
 
+[bundles]
+compose_core = [
+    "compose-ui",
+    "compose-ui-graphics",
+    "compose-foundation",
+    "compose-ui-tooling",
+    "compose-ui-tooling-preview"
+]
 
 
