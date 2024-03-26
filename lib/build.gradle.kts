@@ -1,7 +1,11 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.mosaic.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.gradle.maven.publish)
+
 }
 
 android {
@@ -20,6 +24,12 @@ android {
         }
     }
 }
+mavenPublishing{
+    publishToMavenCentral(SonatypeHost.DEFAULT)
+    signAllPublications()
+}
+
+
 kotlin {
     jvmToolchain(17)
 }
