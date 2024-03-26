@@ -25,7 +25,16 @@
             distribution: zulu
             java-version: 17
 
-        # Remove old release drafts by using the curl request for the available releases with a draft flag
+        # Set environment variables
+        - name: Export Properties
+          id: properties
+          shell: bash
+          run: |
+            PROPERTIES="$(./gradlew properties --console=plain -q)"
+            VERSION="$(echo "$PROPERTIES" | grep "^VERSION_NAME:" | cut -f2- -d ' ')"
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            
+            # Remove old release drafts by using the curl request for the available releases with a draft flag
         - name: Remove Old Release Drafts
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,6 +48,6 @@
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            gh release create v${{ needs.build.outputs.version }} \
+            gh release create v${{ VERSION }} \
               --draft \
-              --title "v${{ needs.build.outputs.version }}" \
+              --title "v${{ VERSION }}" \
