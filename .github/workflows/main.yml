@@ -5,52 +5,73 @@
 #
 # GitHub Actions reference: https://help.github.com/en/actions
 #
-  on:
-    push:
-      branches:
-        - main
+on:
+  push:
+    branches:
+      - main
 
-  jobs:
-    main:
-      runs-on: ubuntu-latest
-      steps:
-        # Check out current repository
-        - name: Fetch Sources
-          uses: actions/checkout@v3
+jobs:
+  publish_snapshot:
+    name: Publish Snapshot
+    runs-on: ubuntu-latest
+    steps:
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v3
 
-        # Set up Java environment for the next steps
-        - name: Setup Java
-          uses: actions/setup-java@v3
-          with:
-            distribution: zulu
-            java-version: 17
+      # Set up Java environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+      - name: Publish Snapshot
+        run: |
+          chmod +x ./publish_snapshot.sh
+          ./publish_snapshot.sh ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}} ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD}}
 
-        # Set environment variables
-        - name: Export Properties
-          id: properties
-          shell: bash
-          run: |
-            PROPERTIES="$(./gradlew properties --console=plain -q)"
-            VERSION="$(echo "$PROPERTIES" | grep "^VERSION_NAME:" | cut -f2- -d ' ')"
-            CHANGELOG="$(./get_changelog.sh)"
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-            echo "changelog=$CHANGELOG" >> $GITHUB_OUTPUT
-            
-            # Remove old release drafts by using the curl request for the available releases with a draft flag
-        - name: Remove Old Release Drafts
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            gh api repos/{owner}/{repo}/releases \
-              --jq '.[] | select(.draft == true) | .id' \
-              | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
+  update_draft_release:
+    name: Create or Update Draft Release
+    runs-on: ubuntu-latest
+    steps:
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v3
 
-        # Create a new release draft which is not publicly visible and requires manual acceptance
-        - name: Create Release Draft
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: |
-            gh release create v${{ steps.properties.outputs.version }} \
-              --draft \
-              --title "v${{ steps.properties.outputs.version }}" \
-              --notes "${{ steps.properties.outputs.changelog }}" \
+      # Set up Java environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+
+      # Set environment variables
+      - name: Export Properties
+        id: properties
+        shell: bash
+        run: |
+          PROPERTIES="$(./gradlew properties --console=plain -q)"
+          VERSION="$(echo "$PROPERTIES" | grep "^VERSION_NAME:" | cut -f2- -d ' ')"
+          chmod +x ./get_changelog.sh
+          CHANGELOG="$(./get_changelog.sh $VERSION)"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "changelog=$(echo "$CHANGELOG" | base64 )" >> $GITHUB_OUTPUT          
+          
+          # Remove old release drafts by using the curl request for the available releases with a draft flag
+      - name: Remove Old Release Drafts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/{owner}/{repo}/releases \
+            --jq '.[] | select(.draft == true) | .id' \
+            | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
+
+      # Create a new release draft which is not publicly visible and requires manual acceptance
+      - name: Create Release Draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create v${{ steps.properties.outputs.version }} \
+            --draft \
+            --title "v${{ steps.properties.outputs.version }}" \
+            --notes "$(echo "${{ steps.properties.outputs.changelog }}" | base64 --decode)"
