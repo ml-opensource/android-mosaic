@@ -1,4 +1,4 @@
-name: publish to maven
+name: Publish Artifacts to Maven Central
 on:
   release:
     types: [ created ]
