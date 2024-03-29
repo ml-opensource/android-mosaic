@@ -71,6 +71,9 @@ public class SensitivityDistribution private constructor(
         }
 
         public fun build(): SensitivityDistribution {
+            if (equationRangeStartMap.isEmpty()) {
+                add(1f, 0f)
+            }
             return SensitivityDistribution(equationRangeStartMap)
         }
     }
