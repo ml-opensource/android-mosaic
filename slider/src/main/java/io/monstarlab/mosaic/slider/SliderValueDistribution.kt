@@ -1,5 +1,6 @@
 package io.monstarlab.mosaic.slider
 
+import androidx.annotation.FloatRange
 import kotlin.math.sqrt
 
 /**
@@ -12,18 +13,18 @@ public interface SliderValueDistribution {
 
     /**
      * Interpolates a value based on the distribution strategy.
-     * @param value the input value to interpolate
-     * @return the interpolated value based on the distribution strategy
+     * @param value the normalized input value to interpolate, it must be between 0 and 1
+     * @return the normalized interpolated value based on the distribution strategy, between 0 and 1
      */
-    public fun interpolate(value: Float): Float
+    public fun interpolate(@FloatRange(0.0, 1.0) value: Float): Float
 
     /**
      * Inversely interpolates a value from the output range to the input range based on the distribution strategy.
      *
-     * @param value the output value to inverse interpolate
-     * @return the inverse interpolated value based on the distribution strategy
+     * @param value the normalized value to inverse interpolate, must be between 0 and 1
+     * @return the normalized inverse interpolated value based on the distribution strategy, between 0 and 1
      */
-    public fun inverse(value: Float): Float
+    public fun inverse(@FloatRange(0.0, 1.0) value: Float): Float
 
     public companion object {
 
