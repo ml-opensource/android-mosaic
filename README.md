@@ -6,6 +6,9 @@ Collection of UI components and utilities for Jetpack Compose
 - [x] Convention Plugins
 - [ ] Sonarqube
 - [x] CI/CD and PR validation, Spotless, Detekt, tests
-- [ ] Release management, Maven Publish, Changelog, Tags & Releases
+- [ ] Release management, 
+  - [x] Maven Publish
+  - [ ] Changelog
+  - [ ] Tags & Releases
 - [x] Documentation setup
 

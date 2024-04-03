@@ -11,6 +11,7 @@ composeCompiler = "1.5.1"
 composeBom = "2024.02.00"
 spotless="6.25.0"
 detekt="1.23.5"
+gradle-maven-publsih ="0.28.0"
 
 [libraries]
 kotlin_gradle_plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
@@ -41,6 +42,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "kotlin" }
 mosaic-application = { id = "io.monstarlab.mosaic.application", version = "undefined" }
 mosaic-library = { id = "io.monstarlab.mosaic.library", version = "undefined" }
+gradle-maven-publish = {id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publsih"}
 
 [bundles]
 compose_core = [
