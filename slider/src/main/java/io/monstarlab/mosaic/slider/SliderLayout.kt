@@ -46,7 +46,7 @@ public fun SliderLayout(
         state.updateDimensions(sliderWidth.toFloat(), thumbPlaceable.width.toFloat())
 
         val trackOffsetX = thumbPlaceable.width / 2
-        val thumbOffsetX = ((trackPlaceable.width) * state.valueAsFraction).roundToInt()
+        val thumbOffsetX = ((trackPlaceable.width) * state.offsetAsFraction).roundToInt()
         val trackOffsetY = (sliderHeight - trackPlaceable.height) / 2
         val thumbOffsetY = (sliderHeight - thumbPlaceable.height) / 2
 

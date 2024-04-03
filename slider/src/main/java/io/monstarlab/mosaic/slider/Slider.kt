@@ -99,7 +99,7 @@ public fun Slider(
         thumb = thumb,
         track = {
             SliderTrack(
-                progress = state.valueAsFraction,
+                progress = state.offsetAsFraction,
                 colors = colors,
                 disabledRange = state.disabledRangeAsFractions,
                 enabled = enabled,
