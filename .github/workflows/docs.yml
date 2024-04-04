@@ -29,7 +29,8 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: |
-          ./gradlew dokkaHtmlMultiModule
-          mv build/dokka/htmlMultiModule docs/api
+          chmod +x ./generate_docs.sh
+          ./generate_docs.sh
+
       - run: pip install mkdocs-material
       - run: mkdocs gh-deploy --force
