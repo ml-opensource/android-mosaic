@@ -66,7 +66,7 @@ public class SliderState(
     internal val offsetAsFraction: Float
         get() = if (totalWidth == 0f) 0f else {
             val valueFraction = value.valueToFraction(range)
-            valueDistribution.inverse(valueFraction)
+            valueDistribution.inverse(valueFraction).coerceIn(0f,1f)
         }
 
 
@@ -136,8 +136,10 @@ public class SliderState(
     }
 
     private fun Float.coerceIntoDisabledRange(): Float {
-        if (disabledRange.isEmpty()) return this
+        if (disabledRange.isEmpty() || !disabledRange.contains(this)) return this
+        if (this - disabledRange.start < disabledRange.endInclusive - this) disabledRange.start else disabledRange.endInclusive
         // check if disabled range is on the left or right
+
         return if (disabledRange.start == range.start) {
             coerceAtLeast(disabledRange.endInclusive)
         } else {
