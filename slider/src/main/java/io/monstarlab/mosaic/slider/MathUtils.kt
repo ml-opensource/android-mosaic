@@ -15,7 +15,7 @@ internal fun Float.valueToFraction(range: ClosedFloatingPointRange<Float>) =
     valueToFraction(range.start, range.endInclusive)
 
 internal fun Float.fractionToValue(rangeStart: Float, rangeEnd: Float): Float =
-    scale(0f, 1f, this.coerceIn(0f,1f), rangeStart, rangeEnd)
+    scale(0f, 1f, this.coerceIn(0f, 1f), rangeStart, rangeEnd)
 
 internal fun Float.fractionToValue(range: ClosedFloatingPointRange<Float>): Float =
     scale(0f, 1f, this, range.start, range.endInclusive)
