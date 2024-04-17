@@ -1,12 +1,13 @@
 package io.monstarlab.mosaic.slider
 
+//TODO refactor code to not use builder
 public class FragmentedLinearDistribution private constructor(
     equationMap: Map<Float, LinearEquation>,
 ) : SliderValueDistribution {
     private var _equationList: MutableList<RangedLinearEquation> = mutableListOf()
     public val equationList: List<RangedLinearEquation> get() = _equationList.toList()
 
-    private lateinit var valueRange: ClosedFloatingPointRange<Float>
+    private var valueRange: ClosedFloatingPointRange<Float>
 
     init {
         var previous: Pair<Float, LinearEquation>? = null
@@ -48,10 +49,11 @@ public class FragmentedLinearDistribution private constructor(
 
     private fun valueFromOffset(offset: Float): Float =
         _equationList.firstOrNull { offset in it.offsetRange }?.equation?.valueFromOffset(offset)
-            ?: 0f
+            ?: if (offset > 1f) 1f else 0f
 
     private fun offsetFromValue(value: Float): Float =
-        _equationList.firstOrNull { value in it.valueRange }?.equation?.offsetFromValue(value) ?: 0f
+        _equationList.firstOrNull { value in it.valueRange }?.equation?.offsetFromValue(value)
+            ?: if (value > 1f) 1f else 0f
 
 
     public class Builder {
@@ -73,12 +75,11 @@ public class FragmentedLinearDistribution private constructor(
             offsetRangeStart: Float,
             offsetRangeEnd: Float,
             initialSensitivity: Float
-        ) {
+        ): Builder = apply {
             rangeStart = offsetRangeStart
             rangeEnd = offsetRangeEnd
             sliceAt(initialSensitivity, fractionalValue(rangeStart))
         }
-
 
         private fun fractionalValue(value: Float) = value.valueToFraction(rangeStart, rangeEnd)
 
@@ -86,7 +87,7 @@ public class FragmentedLinearDistribution private constructor(
             sensitivity: Float,
             position: Float,
         ): Builder = apply {
-            val  relativePosition = fractionalValue(position)
+            val relativePosition = fractionalValue(position)
             if (equationRangeStartMap.isEmpty() && relativePosition != 0f) {
                 throw FirstValueNotZeroException()
             }
@@ -125,4 +126,5 @@ public class FragmentedLinearDistribution private constructor(
 
     public class OverlappingRangeException :
         Exception("can't add overlapping ranges with different sensitivity")
+
 }
