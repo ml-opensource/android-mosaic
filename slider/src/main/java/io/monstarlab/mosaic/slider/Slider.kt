@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
+import io.monstarlab.mosaic.slider.distribution.SliderValueDistribution
 
 /**
  * A composable function that creates a slider UI component.

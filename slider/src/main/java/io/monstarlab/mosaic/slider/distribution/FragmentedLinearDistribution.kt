@@ -1,4 +1,7 @@
-package io.monstarlab.mosaic.slider
+package io.monstarlab.mosaic.slider.distribution
+
+import io.monstarlab.mosaic.slider.fractionToValue
+import io.monstarlab.mosaic.slider.valueToFraction
 
 //TODO refactor code to not use builder
 public class FragmentedLinearDistribution private constructor(

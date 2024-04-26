@@ -1,4 +1,4 @@
-package io.monstarlab.mosaic.slider
+package io.monstarlab.mosaic.slider.distribution
 
 public data class RangedLinearEquation(
     val equation: LinearEquation,

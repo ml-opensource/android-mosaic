@@ -1,5 +1,6 @@
 package io.monstarlab.mosaic.slider
 
+import io.monstarlab.mosaic.slider.distribution.FragmentedLinearDistribution
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
