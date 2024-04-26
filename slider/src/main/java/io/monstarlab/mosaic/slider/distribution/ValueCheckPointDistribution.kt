@@ -1,8 +1,6 @@
-package io.monstarlab.mosaic.slider
+package io.monstarlab.mosaic.slider.distribution
 
-import io.monstarlab.mosaic.slider.distribution.LinearEquation
-import io.monstarlab.mosaic.slider.distribution.RangedLinearEquation
-import io.monstarlab.mosaic.slider.distribution.SliderValueDistribution
+import io.monstarlab.mosaic.slider.valueToFraction
 
 public class ValueCheckPointDistribution(valuesMap: List<Pair<Float, Float>>) :
     SliderValueDistribution {

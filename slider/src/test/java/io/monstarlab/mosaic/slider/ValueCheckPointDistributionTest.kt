@@ -1,5 +1,6 @@
 package io.monstarlab.mosaic.slider
 
+import io.monstarlab.mosaic.slider.distribution.ValueCheckPointDistribution
 import org.junit.Assert.*
 
 import org.junit.After
