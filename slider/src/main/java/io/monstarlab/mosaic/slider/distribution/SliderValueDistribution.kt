@@ -40,6 +40,24 @@ public interface SliderValueDistribution {
         }
 
         /**
+         * Creates a [SliderValueDistribution] with a distribution strategy based on a list of check points.
+         * Each check point is a pair of offset fraction and value that will be associated with with this progress
+         * The distribution will interpolate between the check points using linear equations.
+         *
+         * Example:
+         * For the value range of 0..100
+         * CheckPointsValueDistribution(listOf(0f to 0f, 0.5f to 80f, 1f to 100f))
+         * This will create a distribution that will place value of  80 at 0.5 progress allowing the user to
+         * have more precision while selecting values between 80 and 100
+         *
+         * @param values a list of check points, each check point is a pair of offset fraction and value
+         * @return a [SliderValueDistribution] instance with a check points distribution strategy
+         */
+        public fun checkpoints(vararg values: Pair<Float, Float>): SliderValueDistribution {
+            return CheckPointsValueDistribution(values.toList())
+        }
+
+        /**
          * A linear distribution strategy where the input value is directly mapped to the output value.
          * Used in [Slider] by default
          */
