@@ -1,6 +1,0 @@
-$dokka.format:html-v1
-$dokka.linkExtension:html
-
-module:demo
-io.monstarlab.mosaic
-io.monstarlab.mosaic.ui.theme

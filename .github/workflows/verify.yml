@@ -25,4 +25,4 @@
           run: ./gradlew detekt
 
         - name: Run Tests
-          run: ./gradlew test
+          run: ./gradlew testDebug

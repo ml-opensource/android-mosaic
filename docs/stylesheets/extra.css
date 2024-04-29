@@ -1,18 +1,44 @@
 :root {
-  --md-primary-fg-color:               #FFFF00;
-  --md-primary-fg-color--light:        #464A4D;
-  --md-primary-fg-color--dark:         #464A4D;
-  --md-primary-bg-color:               #464A4D;
-  --md-primary-bg-color--light:        #464A4D;
 
-  // Accent color shades
-  --md-accent-fg-color:                #000000;
-  --md-accent-fg-color--transparent:   #464A4D;
-  --md-accent-bg-color:                #464A4D;
-  --md-accent-bg-color--light:         #464A4D;
+   /* Primary color shades - NavBar */
+  --md-primary-fg-color: yellow;
+  --md-primary-bg-color: black;
+
+  /* Accent color shades - Hover effects */
+  --md-accent-fg-color: yellow;
+  --md-accent-fg-color--transparent: white;
+  --md-accent-bg-color: white;
 }
 
+:root > * {
+   /* background color */
+  --md-default-bg-color: #343434;
 
-:root>* {
---md-typeset-a-color: #656A6D;
+  /* default text color */
+  --md-typeset-color: white;
+
+
+  --md-footer-fg-color: yellow;
+  --md-footer-bg-color: black;
+
+   /* color for markdown code blocks */
+  --md-code-fg-color: yellow;
+  --md-code-bg-color: #2B2B2B;
+
+  /* color for markdown headers */
+  --md-default-fg-color--light: white;
+
+  /* color for code highlighting, works kinda like Dracula Theme */
+  --md-code-hl-number-color: #A9B7C5;
+  --md-code-hl-special-color: #A9B7C5;
+  --md-code-hl-function-color: #A9B7C5;
+  --md-code-hl-constant-color: #A9B7C5;
+  --md-code-hl-keyword-color: #CB7832;
+  --md-code-hl-string-color: #6A8759;
+  --md-code-hl-name-color: #A9B7C5;
+  --md-code-hl-operator-color: #A9B7C5;
+  --md-code-hl-punctuation-color: #A9B7C5;
+  --md-code-hl-comment-color: #6A8759;
+  --md-code-hl-generic-color: #A9B7C5;
+  --md-code-hl-variable-color: #A9B7C5;
 }
