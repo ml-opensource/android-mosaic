@@ -5,6 +5,17 @@ import io.monstarlab.mosaic.slider.math.Point
 import io.monstarlab.mosaic.slider.math.RangedLinearEquation
 import io.monstarlab.mosaic.slider.math.valueToFraction
 
+/**
+ * Represents a distribution strategy for slider values based on a list of check points.
+ * Each check point is a pair of offset fraction and value that will be associated with with this progress
+ * The distribution will interpolate between the check points using linear equations.
+ *
+ * Example:
+ * For the value range of 0..100
+ * CheckPointsValueDistribution(listOf(0f to 0f, 0.5f to 80f, 1f to 100f))
+ * This will create a distribution that will place value of  80 at 0.5 progress allowing the user to
+ * have more precision while selecting values between 80 and 100
+ */
 public class CheckPointsValueDistribution(
     valuesMap: List<Pair<Float, Float>>,
 ) :
