@@ -1,10 +1,16 @@
-site_name: My Docs
+site_name: Mosaic
 extra_css:
   - stylesheets/extra.css
 theme:
+  logo: assets/logo.svg
+  favicon: assets/favicon.png
   name: material
+  font:
+    text: 'Monument Grotesk'
   palette:
     primary: custom
-
 nav:
+  - 'Slider': slider.md
   - 'API': api/
+  - 'Changelog': changelog.md
+  - 'Contributing': contributing.md

@@ -18,3 +18,10 @@
 .cxx
 local.properties
 /build-logic/convention/build/
+
+
+# Documentation not to be modified by hand (pulled from root project)
+docs/index.md
+docs/changelog.md
+docs/contributing.md
+docs/api/*
