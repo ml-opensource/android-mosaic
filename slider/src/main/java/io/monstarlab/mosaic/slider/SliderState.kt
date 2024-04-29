@@ -12,6 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import io.monstarlab.mosaic.slider.distribution.SliderValueDistribution
+import io.monstarlab.mosaic.slider.math.fractionToValue
+import io.monstarlab.mosaic.slider.math.valueToFraction
 import kotlinx.coroutines.coroutineScope
 
 /**

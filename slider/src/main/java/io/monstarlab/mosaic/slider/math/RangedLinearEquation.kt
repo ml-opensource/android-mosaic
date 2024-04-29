@@ -1,6 +1,7 @@
-package io.monstarlab.mosaic.slider.distribution
+package io.monstarlab.mosaic.slider.math
 
-public data class RangedLinearEquation(
+
+internal data class RangedLinearEquation(
     val equation: LinearEquation,
     val offsetRange: ClosedFloatingPointRange<Float>,
     val valueRange: ClosedFloatingPointRange<Float>,

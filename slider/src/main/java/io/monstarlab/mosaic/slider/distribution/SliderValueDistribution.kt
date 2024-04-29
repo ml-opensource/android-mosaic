@@ -35,7 +35,11 @@ public interface SliderValueDistribution {
          * @param c constant term in the parabolic equation
          * @return a [SliderValueDistribution] instance with a parabolic distribution strategy
          */
-        public fun parabolic(a: Float, b: Float = 0f, c: Float = 0f): SliderValueDistribution {
+        public fun parabolic(
+            a: Float,
+            b: Float = 0f,
+            c: Float = 0f
+        ): SliderValueDistribution {
             return ParabolicValueDistribution(a, b, c)
         }
 
@@ -43,14 +47,6 @@ public interface SliderValueDistribution {
          * A linear distribution strategy where the input value is directly mapped to the output value.
          * Used in [Slider] by default
          */
-        public val Linear: SliderValueDistribution = object : SliderValueDistribution {
-            override fun interpolate(value: Float): Float {
-                return value
-            }
-
-            override fun inverse(value: Float): Float {
-                return value
-            }
-        }
+        public val Linear: SliderValueDistribution = LinearValueDistribution
     }
 }
