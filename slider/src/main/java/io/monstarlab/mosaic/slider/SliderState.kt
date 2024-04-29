@@ -164,6 +164,16 @@ public class SliderState(
     }
 }
 
+/**
+ * Creates a [SliderState] that holds the state of a slider
+ * @param value the initial value of the slider
+ * @param range the range of the slider
+ * @param valueDistribution the distribution of the slider values
+ * @param disabledRange the range of the slider that is disabled
+ *
+ * @return a [SliderState] that holds the state of a slider
+
+ */
 @Composable
 public fun rememberSliderState(
     value: Float,
