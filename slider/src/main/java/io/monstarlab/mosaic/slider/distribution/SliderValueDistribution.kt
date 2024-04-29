@@ -35,11 +35,7 @@ public interface SliderValueDistribution {
          * @param c constant term in the parabolic equation
          * @return a [SliderValueDistribution] instance with a parabolic distribution strategy
          */
-        public fun parabolic(
-            a: Float,
-            b: Float = 0f,
-            c: Float = 0f
-        ): SliderValueDistribution {
+        public fun parabolic(a: Float, b: Float = 0f, c: Float = 0f): SliderValueDistribution {
             return ParabolicValueDistribution(a, b, c)
         }
 

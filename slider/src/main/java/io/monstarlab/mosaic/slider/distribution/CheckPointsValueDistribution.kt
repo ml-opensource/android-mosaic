@@ -42,7 +42,6 @@ public class CheckPointsValueDistribution(
             }
     }
 
-
     override fun interpolate(value: Float): Float {
         val equation = equations.firstOrNull { it.offsetRange.contains(value) }?.equation
         checkNotNull(equation) { "No equation found for value $value during interpolate" }
@@ -57,7 +56,7 @@ public class CheckPointsValueDistribution(
 
     private fun List<Pair<Point, Point>>.checkIncreasingValues(): List<Pair<Point, Point>> {
         find { it.first.second >= it.second.second }?.let {
-                throw DecreasingValueException(it.first)
+            throw DecreasingValueException(it.first)
         }
         return this
     }
@@ -65,7 +64,7 @@ public class CheckPointsValueDistribution(
     public class DecreasingValueException(progressValuePair: Point) :
         IllegalStateException(
             "Values must be always increasing with increasing progress," +
-                    " item at progress ${progressValuePair.first}  with value " +
-                    "${progressValuePair.second} is breaking this rule ",
+                " item at progress ${progressValuePair.first}  with value " +
+                "${progressValuePair.second} is breaking this rule ",
         )
 }
