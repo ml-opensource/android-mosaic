@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/demo" />
             <option value="$PROJECT_DIR$/lib" />
+            <option value="$PROJECT_DIR$/slider" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

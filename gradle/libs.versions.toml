@@ -7,12 +7,14 @@ junitVersion = "1.1.5"
 espresso = "3.5.1"
 lifecyle = "2.7.0"
 activityCompose = "1.8.2"
+composeCompiler = "1.5.1"
 composeBom = "2024.02.00"
 spotless="6.25.0"
 detekt="1.23.5"
 gradle-maven-publsih ="0.28.0"
 
 [libraries]
+kotlin_gradle_plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
 android_gradle_plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -24,6 +26,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-foundation = { module = "androidx.compose.foundation:foundation" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
@@ -41,5 +44,13 @@ mosaic-application = { id = "io.monstarlab.mosaic.application", version = "undef
 mosaic-library = { id = "io.monstarlab.mosaic.library", version = "undefined" }
 gradle-maven-publish = {id = "com.vanniktech.maven.publish", version.ref = "gradle-maven-publsih"}
 
+[bundles]
+compose_core = [
+    "compose-ui",
+    "compose-ui-graphics",
+    "compose-foundation",
+    "compose-ui-tooling",
+    "compose-ui-tooling-preview"
+]
 
 
