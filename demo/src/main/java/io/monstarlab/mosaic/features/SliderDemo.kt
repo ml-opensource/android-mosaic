@@ -39,7 +39,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.monstarlab.mosaic.slider.Slider
 import io.monstarlab.mosaic.slider.SliderColors
-import io.monstarlab.mosaic.slider.SliderValueDistribution
+import io.monstarlab.mosaic.slider.distribution.CheckPointsValueDistribution
+import io.monstarlab.mosaic.slider.distribution.SliderValueDistribution
 import kotlin.math.roundToInt
 import androidx.compose.material3.Slider as MaterialSlider
 
@@ -66,7 +67,6 @@ fun MosaicSliderDemo() {
         var enabled by remember { mutableStateOf(true) }
         var isCustom by remember { mutableStateOf(false) }
         var linearDistribution by remember { mutableStateOf(false) }
-
         var sliderValue by remember { mutableFloatStateOf(500f) }
 
         MaterialSlider(
@@ -83,8 +83,15 @@ fun MosaicSliderDemo() {
             Modifier
         }
 
-        val parabolic: SliderValueDistribution = remember {
-            SliderValueDistribution.parabolic(a = 0.005f)
+        val fragmentedDistribution: SliderValueDistribution = remember {
+            CheckPointsValueDistribution(
+                listOf(
+                    0f to 0f,
+                    0.2f to 500f,
+                    0.4f to 800f,
+                    1f to 1000f,
+                ),
+            )
         }
 
         Slider(
@@ -94,10 +101,11 @@ fun MosaicSliderDemo() {
             enabled = enabled,
             colors = colors,
             range = 0f..1000f,
+            disabledRange = 50f..300f,
             valueDistribution = if (linearDistribution) {
                 SliderValueDistribution.Linear
             } else {
-                parabolic
+                fragmentedDistribution
             },
             thumb = {
                 if (isCustom) {
