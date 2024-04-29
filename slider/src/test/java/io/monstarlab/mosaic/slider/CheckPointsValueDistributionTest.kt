@@ -1,27 +1,26 @@
 package io.monstarlab.mosaic.slider
 
 import io.monstarlab.mosaic.slider.distribution.CheckPointsValueDistribution
-import org.junit.Assert.*
-
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Test
 
 class CheckPointsValueDistributionTest {
 
-    private  lateinit var checkPointsValueDistribution : CheckPointsValueDistribution
+    private lateinit var checkPointsValueDistribution: CheckPointsValueDistribution
     private val accuracy = 0.0001f
 
     @Before
     fun setUp() {
-
-        checkPointsValueDistribution =  CheckPointsValueDistribution(
+        checkPointsValueDistribution = CheckPointsValueDistribution(
             listOf(
                 0f to 0f,
                 25f to 25f,
                 50f to 75f,
                 100f to 100f,
-            )
+            ),
         )
     }
 
@@ -38,15 +37,13 @@ class CheckPointsValueDistributionTest {
                     5f to 10f,
                     8f to 16f,
                     7f to 20f,
-                )
+                ),
             )
         }
-
     }
 
     @Test
     fun `create from pairs and interpolate`() {
-
         val points = listOf(
             0.1f to 0.1f,
             0.2f to 0.2f,
@@ -58,12 +55,10 @@ class CheckPointsValueDistributionTest {
         points.forEach {
             assertEquals(it.second, checkPointsValueDistribution.interpolate(it.first), accuracy)
         }
-
     }
 
     @Test
     fun `create from pairs and inverse`() {
-
         val points = listOf(
             0.1f to 0.1f,
             0.2f to 0.2f,
@@ -75,6 +70,5 @@ class CheckPointsValueDistributionTest {
         points.forEach {
             assertEquals(it.first, checkPointsValueDistribution.inverse(it.second), accuracy)
         }
-
     }
 }

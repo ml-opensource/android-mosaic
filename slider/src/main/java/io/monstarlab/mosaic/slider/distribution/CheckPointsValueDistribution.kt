@@ -3,7 +3,7 @@ package io.monstarlab.mosaic.slider.distribution
 import io.monstarlab.mosaic.slider.valueToFraction
 
 public class CheckPointsValueDistribution(
-    valuesMap: List<Pair<Float, Float>>
+    valuesMap: List<Pair<Float, Float>>,
 ) :
     SliderValueDistribution {
 
@@ -42,13 +42,11 @@ public class CheckPointsValueDistribution(
         }
     }
 
-
     override fun interpolate(value: Float): Float {
         val equation = equations.firstOrNull { it.offsetRange.contains(value) }?.equation
         checkNotNull(equation) { "No equation found for value $value during interpolate" }
         return equation.valueFromOffset(value)
     }
-
 
     override fun inverse(value: Float): Float {
         val equation = equations.firstOrNull { it.valueRange.contains(value) }?.equation
@@ -56,11 +54,10 @@ public class CheckPointsValueDistribution(
         return equation.offsetFromValue(value)
     }
 
-
     public class DecreasingValueException(progressValuePair: Pair<Float, Float>) :
         IllegalStateException(
             "Values must be always increasing with increasing progress," +
-                    " item at progress ${progressValuePair.first}  with value " +
-                    "${progressValuePair.second} is breaking this rule "
+                " item at progress ${progressValuePair.first}  with value " +
+                "${progressValuePair.second} is breaking this rule ",
         )
 }

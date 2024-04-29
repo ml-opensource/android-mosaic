@@ -65,11 +65,12 @@ public class SliderState(
      * the "real" position of the thumb
      */
     internal val offsetAsFraction: Float
-        get() = if (totalWidth == 0f) 0f else {
+        get() = if (totalWidth == 0f) {
+            0f
+        } else {
             val valueFraction = value.valueToFraction(range)
-            valueDistribution.inverse(valueFraction).coerceIn(0f,1f)
+            valueDistribution.inverse(valueFraction).coerceIn(0f, 1f)
         }
-
 
     internal val disabledRangeAsFractions: ClosedFloatingPointRange<Float>
         get() = coerceRangeIntoFractions(disabledRange)
@@ -127,7 +128,9 @@ public class SliderState(
      */
     private fun scaleToOffset(value: Float): Float {
         val valueAsFraction = coerceUserValue(value).valueToFraction(range)
-        return valueDistribution.inverse(valueAsFraction).fractionToValue(0f, totalWidth)
+        return valueDistribution
+            .inverse(valueAsFraction)
+            .fractionToValue(0f, totalWidth)
     }
 
     internal fun coerceUserValue(value: Float): Float {
@@ -137,10 +140,11 @@ public class SliderState(
     }
 
     private fun Float.coerceIntoDisabledRange(): Float {
-        if (disabledRange.isEmpty() || !disabledRange.contains(this)) return this
-        if (this - disabledRange.start < disabledRange.endInclusive - this) disabledRange.start else disabledRange.endInclusive
-        // check if disabled range is on the left or right
+        if (disabledRange.isEmpty() || !disabledRange.contains(this)) {
+            return this
+        }
 
+        // check if disabled range is on the left or right
         return if (disabledRange.start == range.start) {
             coerceAtLeast(disabledRange.endInclusive)
         } else {
