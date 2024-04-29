@@ -57,7 +57,7 @@ public class SliderState(
     public var value: Float
         get() = valueState
         set(value) {
-            valueState = coerceValue(value)
+            valueState = coerceUserValue(value)
         }
 
     /**
@@ -116,21 +116,21 @@ public class SliderState(
      * Scales offset in to the value that user should see
      */
     private fun scaleToUserValue(offset: Float): Float {
-
-        val value = valueDistribution.interpolate(offset / totalWidth)
+        val coercedValue = (offset / totalWidth).coerceIn(0f..1f)
+        val value = valueDistribution.interpolate(coercedValue)
             .fractionToValue(range)
-        return coerceValue(value)
+        return coerceUserValue(value)
     }
 
     /**
      * Converts value of the user into the raw offset on the track
      */
     private fun scaleToOffset(value: Float): Float {
-        val valueAsFraction = coerceValue(value).valueToFraction(range)
+        val valueAsFraction = coerceUserValue(value).valueToFraction(range)
         return valueDistribution.inverse(valueAsFraction).fractionToValue(0f, totalWidth)
     }
 
-    internal fun coerceValue(value: Float): Float {
+    internal fun coerceUserValue(value: Float): Float {
         return value
             .coerceIn(range)
             .coerceIntoDisabledRange()

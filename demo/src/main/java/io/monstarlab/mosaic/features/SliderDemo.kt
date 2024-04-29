@@ -37,10 +37,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.monstarlab.mosaic.slider.distribution.FragmentedLinearDistribution
 import io.monstarlab.mosaic.slider.Slider
 import io.monstarlab.mosaic.slider.SliderColors
 import io.monstarlab.mosaic.slider.distribution.SliderValueDistribution
+import io.monstarlab.mosaic.slider.distribution.CheckPointsValueDistribution
 import kotlin.math.roundToInt
 import androidx.compose.material3.Slider as MaterialSlider
 
@@ -84,11 +84,14 @@ fun MosaicSliderDemo() {
         }
 
         val fragmentedDistribution: SliderValueDistribution = remember {
-            FragmentedLinearDistribution.Builder()
-                .sliceAt(0.2f,0f)
-                .sliceAt(2f,0.3f)
-                .sliceAt(0.2f,0.7f)
-                .build()
+            CheckPointsValueDistribution(
+                listOf(
+                    0f to 0f,
+                    0.2f to 500f,
+                    0.4f to 800f,
+                    1f to 1000f,
+                ),
+            )
         }
 
         Slider(

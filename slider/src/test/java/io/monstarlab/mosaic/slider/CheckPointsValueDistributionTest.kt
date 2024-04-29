@@ -1,21 +1,21 @@
 package io.monstarlab.mosaic.slider
 
-import io.monstarlab.mosaic.slider.distribution.ValueCheckPointDistribution
+import io.monstarlab.mosaic.slider.distribution.CheckPointsValueDistribution
 import org.junit.Assert.*
 
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class ValueCheckPointDistributionTest {
+class CheckPointsValueDistributionTest {
 
-    private  lateinit var valueCheckPointDistribution : ValueCheckPointDistribution
+    private  lateinit var checkPointsValueDistribution : CheckPointsValueDistribution
     private val accuracy = 0.0001f
 
     @Before
     fun setUp() {
 
-        valueCheckPointDistribution =  ValueCheckPointDistribution(
+        checkPointsValueDistribution =  CheckPointsValueDistribution(
             listOf(
                 0f to 0f,
                 25f to 25f,
@@ -31,8 +31,8 @@ class ValueCheckPointDistributionTest {
 
     @Test
     fun `test create from pairs with decreasing value`() {
-        assertThrows(ValueCheckPointDistribution.DecreasingValueException::class.java) {
-            ValueCheckPointDistribution(
+        assertThrows(CheckPointsValueDistribution.DecreasingValueException::class.java) {
+            CheckPointsValueDistribution(
                 listOf(
                     0f to 0f,
                     5f to 10f,
@@ -56,7 +56,7 @@ class ValueCheckPointDistributionTest {
             0.75f to 0.875f,
         )
         points.forEach {
-            assertEquals(it.second, valueCheckPointDistribution.interpolate(it.first), accuracy)
+            assertEquals(it.second, checkPointsValueDistribution.interpolate(it.first), accuracy)
         }
 
     }
@@ -73,7 +73,7 @@ class ValueCheckPointDistributionTest {
             0.75f to 0.875f,
         )
         points.forEach {
-            assertEquals(it.first, valueCheckPointDistribution.inverse(it.second), accuracy)
+            assertEquals(it.first, checkPointsValueDistribution.inverse(it.second), accuracy)
         }
 
     }

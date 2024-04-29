@@ -2,13 +2,18 @@ package io.monstarlab.mosaic.slider.distribution
 
 import io.monstarlab.mosaic.slider.valueToFraction
 
-public class ValueCheckPointDistribution(valuesMap: List<Pair<Float, Float>>) :
+public class CheckPointsValueDistribution(
+    valuesMap: List<Pair<Float, Float>>
+) :
     SliderValueDistribution {
 
     private var equations: List<RangedLinearEquation>
 
     init {
-        require(valuesMap.isNotEmpty()) { "values map can't be empty" }
+        require(valuesMap.isNotEmpty()) {
+            "Values map can't be empty"
+        }
+
         val offsetRange = valuesMap.minOf { it.first }..valuesMap.maxOf { it.first }
         val valueRange = valuesMap.minOf { it.second }..valuesMap.maxOf { it.second }
         val zipped = valuesMap.sortedBy { it.first }
@@ -23,7 +28,7 @@ public class ValueCheckPointDistribution(valuesMap: List<Pair<Float, Float>>) :
             val x2Fraction = it.second.first.valueToFraction(offsetRange)
             val y1Fraction = it.first.second.valueToFraction(valueRange)
             val y2Fraction = it.second.second.valueToFraction(valueRange)
-            val equation = LinearEquation.fromTowPoints(
+            val equation = LinearEquation.fromTwoPoints(
                 x1 = x1Fraction,
                 x2 = x2Fraction,
                 y1 = y1Fraction,
@@ -33,22 +38,27 @@ public class ValueCheckPointDistribution(valuesMap: List<Pair<Float, Float>>) :
                 equation = equation,
                 offsetRange = x1Fraction..x2Fraction,
                 valueRange = y1Fraction..y2Fraction,
-
-                )
+            )
         }
     }
 
 
-    override fun interpolate(value: Float): Float =
-        equations.first { it.offsetRange.contains(value) }.equation.valueFromOffset(value)
+    override fun interpolate(value: Float): Float {
+        val equation = equations.firstOrNull { it.offsetRange.contains(value) }?.equation
+        checkNotNull(equation) { "No equation found for value $value during interpolate" }
+        return equation.valueFromOffset(value)
+    }
 
 
-    override fun inverse(value: Float): Float =
-        equations.first { it.valueRange.contains(value) }.equation.offsetFromValue(value)
+    override fun inverse(value: Float): Float {
+        val equation = equations.firstOrNull { it.valueRange.contains(value) }?.equation
+        checkNotNull(equation) { "No equation found for value $value during inverse" }
+        return equation.offsetFromValue(value)
+    }
 
 
     public class DecreasingValueException(progressValuePair: Pair<Float, Float>) :
-        Exception(
+        IllegalStateException(
             "Values must be always increasing with increasing progress," +
                     " item at progress ${progressValuePair.first}  with value " +
                     "${progressValuePair.second} is breaking this rule "

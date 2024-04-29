@@ -46,7 +46,7 @@ internal fun Modifier.sliderSemantics(state: SliderState, enabled: Boolean): Mod
         if (!enabled) disabled()
         setProgress(
             action = { targetValue ->
-                val coercedValue = state.coerceValue(targetValue)
+                val coercedValue = state.coerceUserValue(targetValue)
                 // This is to keep it consistent with AbsSeekbar.java: return false if no
                 // change from current.
                 if (coercedValue == state.value) {
