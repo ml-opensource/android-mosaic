@@ -7,6 +7,22 @@ extra_css:
 theme:
   logo: assets/logo.svg
   favicon: assets/favicon.png
+repo_url: https://github.com/monstar-lab-oss/android-mosaic
+
+
+extra_css:
+  - stylesheets/extra.css
+theme:
+  logo: assets/logo.png
+  favicon: assets/favicon.ico
+
+  features:
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.path
+    - navigation.sections
+    - navigation.sections.expand
+>>>>>>> origin/main
   name: material
   font:
     text: 'Arimo'
@@ -15,6 +31,7 @@ theme:
 
   palette:
     primary: custom
+<<<<<<< HEAD
 nav:
   - 'Home': index.md
   - 'Slider':
@@ -23,6 +40,14 @@ nav:
   - 'Changelog': changelog.md
 
 
+=======
+    accent: custom
+
+nav:
+  - 'API': api/
+  - 'Changelog': changelog.md
+
+>>>>>>> origin/main
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
@@ -30,6 +55,10 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
+<<<<<<< HEAD
   - pymdownx.superfences
   - admonition
 
+=======
+  - pymdownx.superfences
+>>>>>>> origin/main

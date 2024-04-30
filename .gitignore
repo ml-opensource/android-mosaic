@@ -8,9 +8,13 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+<<<<<<< HEAD
 /.idea/misc.xml
 /.idea/deploymentTargetDropDown.xml
 /.idea/deploymentTargetSelector.xml
+=======
+/.idea/*
+>>>>>>> origin/main
 .DS_Store
 /build
 /captures
@@ -18,7 +22,6 @@
 .cxx
 local.properties
 /build-logic/convention/build/
-
 
 # Documentation not to be modified by hand (pulled from root project)
 docs/index.md

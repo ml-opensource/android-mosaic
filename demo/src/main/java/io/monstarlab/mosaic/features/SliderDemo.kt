@@ -100,6 +100,7 @@ fun MosaicSliderDemo() {
             modifier = modifier,
             enabled = enabled,
             colors = colors,
+
             range = 0f..1000f,
             disabledRange = 50f..300f,
             valueDistribution = if (linearDistribution) {
