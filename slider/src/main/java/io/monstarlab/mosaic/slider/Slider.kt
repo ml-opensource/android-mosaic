@@ -89,7 +89,7 @@ public fun Slider(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     thumb: @Composable (SliderState) -> Unit = {
         DefaultSliderThumb(colors = colors, enabled = enabled)
-    }
+    },
 ) {
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
