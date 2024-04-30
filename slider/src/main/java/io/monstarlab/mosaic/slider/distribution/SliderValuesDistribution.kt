@@ -6,9 +6,9 @@ import androidx.annotation.FloatRange
  * Determines how the values will be distributed across the slider
  * Usually the values are distributed in a linear fashion, this interfaces allows
  * to control the distribution using simple math expressions
- * @see ParabolicValueDistribution to see how values can be distributed using parabolic curve
+ * @see ParabolicValuesDistribution to see how values can be distributed using parabolic curve
  */
-public interface SliderValueDistribution {
+public interface SliderValuesDistribution {
 
     /**
      * Interpolates a value based on the distribution strategy.
@@ -28,19 +28,19 @@ public interface SliderValueDistribution {
     public companion object {
 
         /**
-         * Creates a [SliderValueDistribution] with a parabolic distribution strategy.
+         * Creates a [SliderValuesDistribution] with a parabolic distribution strategy.
          *
          * @param a coefficient of the x^2 term in the parabolic equation
          * @param b coefficient of the x term in the parabolic equation
          * @param c constant term in the parabolic equation
-         * @return a [SliderValueDistribution] instance with a parabolic distribution strategy
+         * @return a [SliderValuesDistribution] instance with a parabolic distribution strategy
          */
-        public fun parabolic(a: Float, b: Float = 0f, c: Float = 0f): SliderValueDistribution {
-            return ParabolicValueDistribution(a, b, c)
+        public fun parabolic(a: Float, b: Float = 0f, c: Float = 0f): SliderValuesDistribution {
+            return ParabolicValuesDistribution(a, b, c)
         }
 
         /**
-         * Creates a [SliderValueDistribution] with a distribution strategy based on a list of check points.
+         * Creates a [SliderValuesDistribution] with a distribution strategy based on a list of check points.
          * Each check point is a pair of offset fraction and value that will be associated with with this progress
          * The distribution will interpolate between the check points using linear equations.
          *
@@ -51,16 +51,16 @@ public interface SliderValueDistribution {
          * have more precision while selecting values between 80 and 100
          *
          * @param values a list of check points, each check point is a pair of offset fraction and value
-         * @return a [SliderValueDistribution] instance with a check points distribution strategy
+         * @return a [SliderValuesDistribution] instance with a check points distribution strategy
          */
-        public fun checkpoints(vararg values: Pair<Float, Float>): SliderValueDistribution {
-            return CheckPointsValueDistribution(values.toList())
+        public fun checkpoints(vararg values: Pair<Float, Float>): SliderValuesDistribution {
+            return CheckPointsValuesDistribution(values.toList())
         }
 
         /**
          * A linear distribution strategy where the input value is directly mapped to the output value.
          * Used in [Slider] by default
          */
-        public val Linear: SliderValueDistribution = LinearValueDistribution
+        public val Linear: SliderValuesDistribution = LinearValuesDistribution
     }
 }

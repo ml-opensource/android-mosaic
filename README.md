@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="docs/assets/logo.svg" alt="Mosaic Logo" width="300"/>
+  <img src="./docs/assets/logo.svg" alt="Mosaic Logo" width="300"/>
 </p>
 
 <p align="center" style="font-size: 15px;">

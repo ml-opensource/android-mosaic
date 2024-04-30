@@ -1,6 +1,6 @@
 package io.monstarlab.mosaic.slider
 
-import io.monstarlab.mosaic.slider.distribution.CheckPointsValueDistribution
+import io.monstarlab.mosaic.slider.distribution.CheckPointsValuesDistribution
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
@@ -9,12 +9,12 @@ import org.junit.Test
 
 class CheckPointsValueDistributionTest {
 
-    private lateinit var checkPointsValueDistribution: CheckPointsValueDistribution
+    private lateinit var checkPointsValueDistribution: CheckPointsValuesDistribution
     private val accuracy = 0.0001f
 
     @Before
     fun setUp() {
-        checkPointsValueDistribution = CheckPointsValueDistribution(
+        checkPointsValueDistribution = CheckPointsValuesDistribution(
             listOf(
                 0f to 0f,
                 25f to 25f,
@@ -30,8 +30,8 @@ class CheckPointsValueDistributionTest {
 
     @Test
     fun `test create from pairs with decreasing value`() {
-        assertThrows(CheckPointsValueDistribution.DecreasingValueException::class.java) {
-            CheckPointsValueDistribution(
+        assertThrows(CheckPointsValuesDistribution.DecreasingValueException::class.java) {
+            CheckPointsValuesDistribution(
                 listOf(
                     0f to 0f,
                     5f to 10f,

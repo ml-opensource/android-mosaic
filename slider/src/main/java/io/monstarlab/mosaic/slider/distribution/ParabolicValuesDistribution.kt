@@ -13,11 +13,11 @@ import kotlin.math.sqrt
  * @property c constant term in the parabolic equation
  * @constructor Creates a ParabolicValueDistribution with the given coefficients.
  */
-public class ParabolicValueDistribution(
+public class ParabolicValuesDistribution(
     private val a: Float,
     private val b: Float,
     private val c: Float,
-) : SliderValueDistribution {
+) : SliderValuesDistribution {
 
     override fun inverse(value: Float): Float {
         if (value == 0f) return 0f

@@ -24,4 +24,5 @@ local.properties
 docs/index.md
 docs/changelog.md
 docs/contributing.md
+docs/license.md
 docs/api/*

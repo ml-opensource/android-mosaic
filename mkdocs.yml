@@ -1,4 +1,6 @@
 site_name: Mosaic
+repo_url: https://github.com/monstar-lab-oss/android-mosaic
+repo_name: monstar-lab-oss/android-mosaic
 extra_css:
   - stylesheets/extra.css
 theme:
@@ -6,11 +8,32 @@ theme:
   favicon: assets/favicon.png
   name: material
   font:
-    text: 'Monument Grotesk'
+    text: 'Arimo'
+  features:
+    - content.code.copy
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.path
+    - navigation.sections
+    - navigation.sections.expand
+    - navigation.expand
+
   palette:
     primary: custom
 nav:
-  - 'Slider': slider.md
-  - 'API': api/
+  - 'Home': index.md
+  - 'Slider':
+      - 'Guide': slider.md
+      - 'API': api/slider/
   - 'Changelog': changelog.md
   - 'Contributing': contributing.md
+
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
