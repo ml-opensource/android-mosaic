@@ -11,12 +11,6 @@ theme:
     text: 'Arimo'
   features:
     - content.code.copy
-    - navigation.instant
-    - navigation.instant.prefetch
-    - navigation.path
-    - navigation.sections
-    - navigation.sections.expand
-    - navigation.expand
 
   palette:
     primary: custom
