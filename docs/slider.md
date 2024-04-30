@@ -98,6 +98,7 @@ Following example has a custom thumb that displays current value and animates it
 Sometimes you want to limit slider range to some extent while still showing the full range. This can be done using `disabledRange` 
 By specifying disabled range you limit where user can drag the thumb, thus making sure the values from the `disabledRange` wont be selected
 
+![Disabled range](assets/example_disabled_range.gif)
 
 You can specifiy the `disabledRange` in two ways, depending on how you manage the slider state 
 
@@ -138,6 +139,8 @@ val colors = SliderColors(
 Most of the Sliders have Linear values distribution, meaning that the values are evenly distributed along the range of the slider. Mosaic Slider provides the flexibility to define custom values distributions. 
 
 This allows you to control how the user interacts with the slider, the specific values that can be selected and how sensetive the slider is to the changes on some segments so that the users selection is more precise.
+
+![Distributions](./assets/example_distribution.gif)
 
 ### Linear Values Distribution
 By default, Mosaic Slider will use `SliderValuesDistribution.Linear` which would arrange values in a linear fashion just like any other Slider
