@@ -31,6 +31,5 @@ jobs:
       - run: |
           chmod +x ./generate_docs.sh
           ./generate_docs.sh
-
       - run: pip install mkdocs-material
       - run: mkdocs gh-deploy --force

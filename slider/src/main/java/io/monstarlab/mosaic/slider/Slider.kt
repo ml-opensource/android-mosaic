@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
-import io.monstarlab.mosaic.slider.distribution.SliderValueDistribution
+import io.monstarlab.mosaic.slider.distribution.SliderValuesDistribution
 
 /**
  * A composable function that creates a slider UI component.
@@ -36,7 +36,7 @@ public fun Slider(
     colors: SliderColors,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    valueDistribution: SliderValueDistribution = SliderValueDistribution.Linear,
+    valueDistribution: SliderValuesDistribution = SliderValuesDistribution.Linear,
     range: ClosedFloatingPointRange<Float> = 0f..1f,
     disabledRange: ClosedFloatingPointRange<Float> = EmptyRange,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -87,7 +87,9 @@ public fun Slider(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    thumb: @Composable (SliderState) -> Unit,
+    thumb: @Composable (SliderState) -> Unit = {
+        DefaultSliderThumb(colors = colors, enabled = enabled)
+    },
 ) {
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 

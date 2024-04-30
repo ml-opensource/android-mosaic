@@ -11,7 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
-import io.monstarlab.mosaic.slider.distribution.SliderValueDistribution
+import io.monstarlab.mosaic.slider.distribution.SliderValuesDistribution
 import io.monstarlab.mosaic.slider.math.fractionToValue
 import io.monstarlab.mosaic.slider.math.valueToFraction
 import kotlinx.coroutines.coroutineScope
@@ -24,7 +24,7 @@ public class SliderState(
     initialValue: Float,
     public val range: ClosedFloatingPointRange<Float>,
     private val disabledRange: ClosedFloatingPointRange<Float>,
-    private val valueDistribution: SliderValueDistribution,
+    private val valueDistribution: SliderValuesDistribution,
 ) : DraggableState {
 
     /**
@@ -33,7 +33,7 @@ public class SliderState(
      * And it is the responsibility of a client to manage the value state
      */
     internal var onValueChange: ((Float) -> Unit)? = null
-    internal var isDragging by mutableStateOf(false)
+    public var isDragging: Boolean by mutableStateOf(false)
         private set
     private var totalWidth by mutableFloatStateOf(0f)
     private var thumbWidth by mutableFloatStateOf(0f)
@@ -166,7 +166,7 @@ public class SliderState(
 
 /**
  * Creates a [SliderState] that holds the state of a slider
- * @param value the initial value of the slider
+ * @param initialValue the initial value of the slider
  * @param range the range of the slider
  * @param valueDistribution the distribution of the slider values
  * @param disabledRange the range of the slider that is disabled
@@ -176,14 +176,14 @@ public class SliderState(
  */
 @Composable
 public fun rememberSliderState(
-    value: Float,
+    initialValue: Float,
     range: ClosedFloatingPointRange<Float> = 0f..1f,
-    valueDistribution: SliderValueDistribution = SliderValueDistribution.Linear,
+    valueDistribution: SliderValuesDistribution = SliderValuesDistribution.Linear,
     disabledRange: ClosedFloatingPointRange<Float> = EmptyRange,
 ): SliderState {
     return remember(range, valueDistribution, disabledRange) {
         SliderState(
-            initialValue = value,
+            initialValue = initialValue,
             range = range,
             disabledRange = disabledRange,
             valueDistribution = valueDistribution,

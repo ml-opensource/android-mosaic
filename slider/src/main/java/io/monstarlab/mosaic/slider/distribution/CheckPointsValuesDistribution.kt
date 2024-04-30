@@ -16,10 +16,10 @@ import io.monstarlab.mosaic.slider.math.valueToFraction
  * This will create a distribution that will place value of  80 at 0.5 progress allowing the user to
  * have more precision while selecting values between 80 and 100
  */
-public class CheckPointsValueDistribution(
+public class CheckPointsValuesDistribution(
     valuesMap: List<Pair<Float, Float>>,
 ) :
-    SliderValueDistribution {
+    SliderValuesDistribution {
 
     private var equations: List<RangedLinearEquation>
 

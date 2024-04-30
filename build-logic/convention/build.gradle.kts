@@ -12,6 +12,10 @@ dependencies {
     compileOnly(lib.android.gradle.plugin)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 gradlePlugin {
     /**
      * Register convention plugins so they are available in the build scripts of the application

@@ -8,7 +8,13 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+<<<<<<< HEAD
+/.idea/misc.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/deploymentTargetSelector.xml
+=======
 /.idea/*
+>>>>>>> origin/main
 .DS_Store
 /build
 /captures
@@ -17,5 +23,9 @@
 local.properties
 /build-logic/convention/build/
 
-# generated dokka files just, ignored just in case
-/docs/api/
+# Documentation not to be modified by hand (pulled from root project)
+docs/index.md
+docs/changelog.md
+docs/contributing.md
+docs/license.md
+docs/api/*

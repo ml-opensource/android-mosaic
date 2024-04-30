@@ -1,4 +1,12 @@
 site_name: Mosaic
+site_owner: Monstarlab
+repo_url: https://github.com/monstar-lab-oss/android-mosaic
+repo_name: monstar-lab-oss/android-mosaic
+extra_css:
+  - stylesheets/extra.css
+theme:
+  logo: assets/logo.svg
+  favicon: assets/favicon.png
 repo_url: https://github.com/monstar-lab-oss/android-mosaic
 
 
@@ -14,15 +22,32 @@ theme:
     - navigation.path
     - navigation.sections
     - navigation.sections.expand
+>>>>>>> origin/main
   name: material
+  font:
+    text: 'Arimo'
+  features:
+    - content.code.copy
+
   palette:
     primary: custom
+<<<<<<< HEAD
+nav:
+  - 'Home': index.md
+  - 'Slider':
+      - 'Guide': slider.md
+      - 'API': api/slider/
+  - 'Changelog': changelog.md
+
+
+=======
     accent: custom
 
 nav:
   - 'API': api/
   - 'Changelog': changelog.md
 
+>>>>>>> origin/main
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
@@ -30,4 +55,10 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
+<<<<<<< HEAD
   - pymdownx.superfences
+  - admonition
+
+=======
+  - pymdownx.superfences
+>>>>>>> origin/main
