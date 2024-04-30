@@ -12,7 +12,7 @@
 
 ## Libraries
 
-### Slider
+### 🎛️ [Mosaic Slider](./slider/)
 Mosaic Slider is a highly customizable slider component that allows precise customization of values distribution and disabled ranges. Its API is similar to Material sliders, making it easy to integrate into existing projects.
 
 
@@ -24,4 +24,9 @@ We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.
 ## License
 
 Mosaic is licensed under the MIT License. See [LICENSE](LICENSE) for more details.
-```
+
+
+## Made with ❤️ by
+<p>
+  <img src="./docs/assets/ml_logo.png" alt="Monstarlab Logo" width="300"/>
+</p>

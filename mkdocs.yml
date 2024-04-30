@@ -1,4 +1,5 @@
 site_name: Mosaic
+site_owner: Monstarlab
 repo_url: https://github.com/monstar-lab-oss/android-mosaic
 repo_name: monstar-lab-oss/android-mosaic
 extra_css:
@@ -20,7 +21,6 @@ nav:
       - 'Guide': slider.md
       - 'API': api/slider/
   - 'Changelog': changelog.md
-  - 'Contributing': contributing.md
 
 
 markdown_extensions:
