@@ -17,9 +17,11 @@
  /* default text color */
  --md-typeset-color: white;
 
+ /* color for blockquotes */
+ --md-admonition-fg-color: white;
+
   /* color for links */
  --md-typeset-a-color: yellow;
-
 
  --md-footer-fg-color: yellow;
  --md-footer-bg-color: black;
@@ -33,13 +35,13 @@
 
  /* color for code highlighting, works kinda like Dracula Theme */
  --md-code-hl-number-color: #A9B7C5;
- --md-code-hl-special-color: #A9B7C5;
+ --md-code-hl-special-color: #6BB38A;
  --md-code-hl-function-color: #A9B7C5;
  --md-code-hl-constant-color: #A9B7C5;
  --md-code-hl-keyword-color: #CB7832;
  --md-code-hl-string-color: #6A8759;
  --md-code-hl-name-color: #A9B7C5;
- --md-code-hl-operator-color: #A9B7C5;
+ --md-code-hl-operator-color: #56C1D6;
  --md-code-hl-punctuation-color: #A9B7C5;
  --md-code-hl-comment-color: #6A8759;
  --md-code-hl-generic-color: #A9B7C5;

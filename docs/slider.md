@@ -146,7 +146,8 @@ By default, Mosaic Slider will use `SliderValuesDistribution.Linear` which would
 ### Parabolic Values Distribution
 Parabolic Values Distribution allows you to arrange your values in parabolic fashion. For this, you would have to provide your `a`,`b` and `c` values for the `axˆ2 + bx+ c` equation.
 
-> Note that curve must be increasing in Y-value for the slider to work properly. Also since parabolic curve is symetric only one value will be used when inversing it 
+!!! note
+    Note that curve must be increasing in Y-value for the slider to work properly. Also since parabolic curve is symetric only one value will be used when inversing it 
 
 ```kotlin
 val myDistribution = SliderValuesDistribution.parbolic(a, b, c)
