@@ -8,9 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-With our first Mosaic Release 🎉 we introduce the first compoment that makes it to the Mosaic Collection: Mosaic Slider.
 
-Mosaic Slider offers a wide range of customization including custom Thumbs, custom Values Distribution and more
-
-
-You can learn more about Mosaic on our [documentation page](https://monstar-lab-oss.github.io/android-mosaic/)
+- With our first Mosaic Release 🎉 we introduce the first compoment that makes it to the Mosaic Collection: Mosaic Slider.
+- Mosaic Slider offers a wide range of customization including custom Thumbs, custom Values Distribution and more
+- You can learn more about Mosaic on our [documentation page](https://monstar-lab-oss.github.io/android-mosaic/)
