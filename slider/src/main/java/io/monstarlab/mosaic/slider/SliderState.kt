@@ -12,7 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import io.monstarlab.mosaic.slider.distribution.SliderValuesDistribution
-import io.monstarlab.mosaic.slider.math.fractionToValue
+import io.monstarlab.mosaic.slider.distribution.inverse
+import io.monstarlab.mosaic.slider.math.calcFraction
+import io.monstarlab.mosaic.slider.math.scale
 import io.monstarlab.mosaic.slider.math.valueToFraction
 import kotlinx.coroutines.coroutineScope
 
@@ -70,8 +72,10 @@ public class SliderState(
         get() = if (totalWidth == 0f) {
             0f
         } else {
-            val valueFraction = value.valueToFraction(range)
-            valueDistribution.inverse(valueFraction).coerceIn(0f, 1f)
+            val inverted = valueDistribution.inverse(value)
+            val invertedRange = valueDistribution.inverse(range)
+            inverted.valueToFraction(invertedRange)
+
         }
 
     internal val disabledRangeAsFractions: ClosedFloatingPointRange<Float>
@@ -119,20 +123,25 @@ public class SliderState(
      * Scales offset in to the value that user should see
      */
     private fun scaleToUserValue(offset: Float): Float {
-        val coercedValue = (offset / totalWidth).coerceIn(0f..1f)
-        val value = valueDistribution.interpolate(coercedValue)
-            .fractionToValue(range)
-        return coerceUserValue(value)
+        val invertedRange = valueDistribution.inverse(range)
+        val value = scale(0f, totalWidth, offset, invertedRange.start, invertedRange.endInclusive)
+        return coerceUserValue(valueDistribution.interpolate(value))
     }
 
     /**
      * Converts value of the user into the raw offset on the track
      */
     private fun scaleToOffset(value: Float): Float {
-        val valueAsFraction = coerceUserValue(value).valueToFraction(range)
-        return valueDistribution
-            .inverse(valueAsFraction)
-            .fractionToValue(0f, totalWidth)
+        val coerced = coerceUserValue(value)
+        val invertedRange = valueDistribution.inverse(range)
+        val invertedValue = valueDistribution.inverse(coerced)
+        return scale(
+            invertedRange.start,
+            invertedRange.endInclusive,
+            invertedValue,
+            0f,
+            totalWidth,
+        )
     }
 
     internal fun coerceUserValue(value: Float): Float {
@@ -157,10 +166,18 @@ public class SliderState(
     private fun coerceRangeIntoFractions(
         subrange: ClosedFloatingPointRange<Float>,
     ): ClosedFloatingPointRange<Float> {
-        if (subrange.isEmpty()) return subrange
-        val start = valueDistribution.inverse(subrange.start.valueToFraction(range))
-        val end = valueDistribution.inverse(subrange.endInclusive.valueToFraction(range))
-        return start..end
+        val inverseRange = valueDistribution.inverse(range)
+        val inverseSubrange = valueDistribution.inverse(subrange)
+
+        return calcFraction(
+            inverseRange.start,
+            inverseRange.endInclusive,
+            inverseSubrange.start,
+        )..calcFraction(
+            inverseRange.start,
+            inverseRange.endInclusive,
+            inverseSubrange.endInclusive,
+        )
     }
 }
 

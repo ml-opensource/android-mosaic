@@ -27,18 +27,14 @@ public class CheckPointsValuesDistribution(
         require(valuesMap.isNotEmpty()) {
             "Values map can't be empty"
         }
-
-        val offsetRange = valuesMap.minOf { it.first }..valuesMap.maxOf { it.first }
-        val valueRange = valuesMap.minOf { it.second }..valuesMap.maxOf { it.second }
-
         equations = valuesMap.sortedBy { it.first }
             .zipWithNext()
             .checkIncreasingValues() // check if values are always increasing
             .map {
-                val x1Fraction = it.first.first.valueToFraction(offsetRange)
-                val x2Fraction = it.second.first.valueToFraction(offsetRange)
-                val y1Fraction = it.first.second.valueToFraction(valueRange)
-                val y2Fraction = it.second.second.valueToFraction(valueRange)
+                val x1Fraction = it.first.first
+                val x2Fraction = it.second.first
+                val y1Fraction = it.first.second
+                val y2Fraction = it.second.second
                 val equation = LinearEquation.fromTwoPoints(
                     x1 = x1Fraction,
                     x2 = x2Fraction,
@@ -50,6 +46,8 @@ public class CheckPointsValuesDistribution(
                     offsetRange = x1Fraction..x2Fraction,
                     valueRange = y1Fraction..y2Fraction,
                 )
+            }.also {
+                println(it)
             }
     }
 
