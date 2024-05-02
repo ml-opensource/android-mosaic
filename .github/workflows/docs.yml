@@ -50,5 +50,5 @@ jobs:
         if: github.event_name == 'pull_request'
         with:
           message: |
-            Preview available at: ${{ steps.deploy.outputs.url }}
+            Preview available at: https://${{ github.repository_owner }}.github.io/${{ github.repository }}/pr-${{ github.event.pull_request.number }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
