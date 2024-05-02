@@ -7,6 +7,7 @@ on:
     types: [opened, synchronize, reopened]
 permissions:
   contents: write
+  issues: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
