@@ -1,6 +1,5 @@
 package io.monstarlab.mosaic.slider.distribution
 
-
 /**
  * Determines how the values will be distributed across the slider
  * Usually the values are distributed in a linear fashion, this interfaces allows
@@ -19,7 +18,7 @@ public interface SliderValuesDistribution {
     /**
      * Inversely interpolates a value from the output range to the input range based on the distribution strategy.
      *
-     * @param  value to inverse interpolate
+     * @param value to inverse interpolate
      * @return inverse interpolated value based on the distribution strategy
      */
     public fun inverse(value: Float): Float

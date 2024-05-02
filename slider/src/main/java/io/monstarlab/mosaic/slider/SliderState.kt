@@ -75,7 +75,6 @@ public class SliderState(
             val inverted = valueDistribution.inverse(value)
             val invertedRange = valueDistribution.inverse(range)
             inverted.valueToFraction(invertedRange)
-
         }
 
     internal val disabledRangeAsFractions: ClosedFloatingPointRange<Float>

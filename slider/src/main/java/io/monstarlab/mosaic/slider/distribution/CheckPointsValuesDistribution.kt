@@ -3,7 +3,6 @@ package io.monstarlab.mosaic.slider.distribution
 import io.monstarlab.mosaic.slider.math.LinearEquation
 import io.monstarlab.mosaic.slider.math.Point
 import io.monstarlab.mosaic.slider.math.RangedLinearEquation
-import io.monstarlab.mosaic.slider.math.valueToFraction
 
 /**
  * Represents a distribution strategy for slider values based on a list of check points.
