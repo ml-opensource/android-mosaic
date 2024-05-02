@@ -1,14 +1,10 @@
-name: Publish Or Preview Documentation
+name: Publish Documentation
 on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
 permissions:
-  pull-requests: write
   contents: write
-  issues: write
 
 jobs:
   deploy:
@@ -40,16 +36,3 @@ jobs:
       - name: Deploy to GitHub Pages
         run: mkdocs gh-deploy --force
         if: github.ref == 'refs/heads/main'
-      - name: Deploy PR Preview
-        run: |
-          git checkout -b pr-${{ github.event.pull_request.number }}
-          git push origin pr-${{ github.event.pull_request.number }} --force
-          mkdocs gh-deploy --force --remote-branch pr-${{ github.event.pull_request.number }}
-        if: github.event_name == 'pull_request'
-      - name: Add PR Comment
-        uses: mshick/add-pr-comment@v2.8.2
-        if: github.event_name == 'pull_request'
-        with:
-          message: |
-            Preview available at: https://${{ github.repository_owner }}.github.io/${{ github.repository }}/pr-${{ github.event.pull_request.number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
