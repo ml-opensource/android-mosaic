@@ -23,30 +23,29 @@ public class CheckPointsValuesDistribution(
     private var equations: List<RangedLinearEquation>
 
     init {
-        require(valuesMap.isNotEmpty()) {
+        val max = requireNotNull(valuesMap.maxByOrNull { it.first }?.second) {
             "Values map can't be empty"
         }
+
         equations = valuesMap.sortedBy { it.first }
             .zipWithNext()
             .checkIncreasingValues() // check if values are always increasing
             .map {
-                val x1Fraction = it.first.first
-                val x2Fraction = it.second.first
-                val y1Fraction = it.first.second
-                val y2Fraction = it.second.second
+                val x1 = it.first.first * max
+                val x2 = it.second.first * max
+                val y1 = it.first.second
+                val y2 = it.second.second
                 val equation = LinearEquation.fromTwoPoints(
-                    x1 = x1Fraction,
-                    x2 = x2Fraction,
-                    y1 = y1Fraction,
-                    y2 = y2Fraction,
+                    x1 = x1,
+                    x2 = x2,
+                    y1 = y1,
+                    y2 = y2,
                 )
                 RangedLinearEquation(
                     equation = equation,
-                    offsetRange = x1Fraction..x2Fraction,
-                    valueRange = y1Fraction..y2Fraction,
+                    offsetRange = x1..x2,
+                    valueRange = y1..y2,
                 )
-            }.also {
-                println(it)
             }
     }
 

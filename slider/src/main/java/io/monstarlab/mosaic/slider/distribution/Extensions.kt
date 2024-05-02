@@ -4,6 +4,7 @@ internal fun SliderValuesDistribution.inverse(
     range: ClosedFloatingPointRange<Float>,
 ): ClosedFloatingPointRange<Float> {
     if (range.isEmpty()) return range
+    println("inverse ${range.start } ${range.endInclusive}")
     return inverse(range.start)..inverse(range.endInclusive)
 }
 

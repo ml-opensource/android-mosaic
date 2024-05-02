@@ -85,7 +85,7 @@ public class SliderState(
     }
 
     override fun dispatchRawDelta(delta: Float) {
-        val newRawOffset = rawOffset + delta
+        val newRawOffset = (rawOffset + delta).coerceIn(0f, totalWidth)
         val userValue = scaleToUserValue(newRawOffset)
         handleValueUpdate(userValue, newRawOffset)
     }
@@ -122,7 +122,9 @@ public class SliderState(
      * Scales offset in to the value that user should see
      */
     private fun scaleToUserValue(offset: Float): Float {
+        println("Range: $range")
         val invertedRange = valueDistribution.inverse(range)
+        println("Inverted range: $invertedRange")
         val value = scale(0f, totalWidth, offset, invertedRange.start, invertedRange.endInclusive)
         return coerceUserValue(valueDistribution.interpolate(value))
     }
