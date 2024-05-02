@@ -43,7 +43,7 @@ jobs:
       - name: Deploy PR Preview
         run: |
           git checkout -b pr-${{ github.event.pull_request.number }}
-          git push origin pr-${{ github.event.pull_request.number }}
+          git push origin pr-${{ github.event.pull_request.number }} --force
           mkdocs gh-deploy --force --remote-branch pr-${{ github.event.pull_request.number }}
         if: github.event_name == 'pull_request'
       - name: Add PR Comment
