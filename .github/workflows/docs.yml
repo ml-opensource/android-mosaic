@@ -6,9 +6,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 permissions:
+  pull-requests: write
   contents: write
   issues: write
-  pull_requests: write
 
 jobs:
   deploy:
@@ -45,18 +45,10 @@ jobs:
           git checkout -b pr-${{ github.event.pull_request.number }}
           mkdocs gh-deploy --force
         if: github.event_name == 'pull_request'
-      - name: Post PR comment with preview link
-        uses: actions/github-script@v6
+      - name: Add PR Comment
+        uses: mshick/add-pr-comment@v2.8.2
         if: github.event_name == 'pull_request'
         with:
-          script: |
-            const issue_number = context.issue.number;
-            const repository = context.repo;
-            const url = `https://${repository.owner}.github.io/${repository.repo}/pr-${issue_number}`;
-            const body = `Preview the documentation at ${url}`;
-            github.rest.issues.createComment({
-              issue_number: issue_number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body
-            });
+          message: |
+            Preview available at: ${{ steps.deploy.outputs.url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
