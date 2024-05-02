@@ -1,4 +1,4 @@
-name: Publish Documentation
+name: Publish Or Preview Documentation
 on:
   push:
     branches:
@@ -8,6 +8,8 @@ on:
 permissions:
   contents: write
   issues: write
+  pull_requests: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
