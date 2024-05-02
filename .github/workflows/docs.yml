@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 permissions:
   contents: write
 jobs:
@@ -32,4 +34,26 @@ jobs:
           chmod +x ./generate_docs.sh
           ./generate_docs.sh
       - run: pip install mkdocs-material
-      - run: mkdocs gh-deploy --force
+      - name: Deploy to GitHub Pages
+        run: mkdocs gh-deploy --force
+        if: github.ref == 'refs/heads/main'
+      - name: Deploy PR Preview
+        run: |
+          git checkout -b pr-${{ github.event.pull_request.number }}
+          mkdocs gh-deploy --force
+        if: github.event_name == 'pull_request'
+      - name: Post PR comment with preview link
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const issue_number = context.issue.number;
+            const repository = context.repo;
+            const url = `https://${repository.owner}.github.io/${repository.repo}/pr-${issue_number}`;
+            const body = `Preview the documentation at ${url}`;
+            github.rest.issues.createComment({
+              issue_number: issue_number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
