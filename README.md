@@ -23,7 +23,7 @@ We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.
 
 ## License
 
-Mosaic is licensed under the MIT License. See [LICENSE](LICENSE) for more details.
+Mosaic is licensed under the MIT License. See [LICENSE](LICENSE.md) for more details.
 
 
 ## Made with ❤️ by
