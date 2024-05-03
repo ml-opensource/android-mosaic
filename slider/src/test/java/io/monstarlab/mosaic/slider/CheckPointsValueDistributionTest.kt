@@ -17,9 +17,9 @@ class CheckPointsValueDistributionTest {
         checkPointsValueDistribution = CheckPointsValuesDistribution(
             listOf(
                 0f to 0f,
-                25f to 25f,
-                50f to 75f,
-                100f to 100f,
+                0.25f to 25f,
+                0.50f to 75f,
+                1f to 100f,
             ),
         )
     }
@@ -45,12 +45,12 @@ class CheckPointsValueDistributionTest {
     @Test
     fun `create from pairs and interpolate`() {
         val points = listOf(
-            0.1f to 0.1f,
-            0.2f to 0.2f,
-            0.25f to 0.25f,
-            0.4f to 0.55f,
-            0.6f to 0.8f,
-            0.75f to 0.875f,
+            10f to 10f,
+            20f to 20f,
+            25f to 25f,
+            40f to 55f,
+            60f to 80f,
+            70.5f to 85.25f,
         )
         points.forEach {
             assertEquals(it.second, checkPointsValueDistribution.interpolate(it.first), accuracy)
@@ -60,12 +60,12 @@ class CheckPointsValueDistributionTest {
     @Test
     fun `create from pairs and inverse`() {
         val points = listOf(
-            0.1f to 0.1f,
-            0.2f to 0.2f,
-            0.25f to 0.25f,
-            0.4f to 0.55f,
-            0.6f to 0.8f,
-            0.75f to 0.875f,
+            10f to 10f,
+            20f to 20f,
+            25f to 25f,
+            40f to 55f,
+            60f to 80f,
+            70.5f to 85.25f,
         )
         points.forEach {
             assertEquals(it.first, checkPointsValueDistribution.inverse(it.second), accuracy)

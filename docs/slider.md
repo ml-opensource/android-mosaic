@@ -142,11 +142,11 @@ This allows you to control how the user interacts with the slider, the specific 
 
 ![Distributions](./assets/example_distribution.gif)
 
-### Linear Values Distribution
+#### Linear Values Distribution
 By default, Mosaic Slider will use `SliderValuesDistribution.Linear` which would arrange values in a linear fashion just like any other Slider
 
 
-### Parabolic Values Distribution
+#### Parabolic Values Distribution
 Parabolic Values Distribution allows you to arrange your values in parabolic fashion. For this, you would have to provide your `a`,`b` and `c` values for the `axˆ2 + bx+ c` equation.
 
 !!! note
@@ -156,7 +156,7 @@ Parabolic Values Distribution allows you to arrange your values in parabolic fas
 val myDistribution = SliderValuesDistribution.parbolic(a, b, c)
 ```
 
-### Checkpoints Values Distribution
+#### Checkpoints Values Distribution
 
 `CheckpointValuesDistribution` provides a more convinient way to customize distribution. It is based on the list of "checkoints" where each one of them is placed along the SliderTrack and comes with specific values.
 
@@ -172,7 +172,7 @@ val distribution = SliderValuesDistribution.checkpoints(
 )
 ```
 
-### Make your own distribution
+#### Make your own distribution
 `SliderValuesDistribution` is a simple interface you can extend and build your own distribution.
 
 ```kotlin
