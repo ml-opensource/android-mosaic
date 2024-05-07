@@ -19,10 +19,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -40,11 +42,20 @@ import androidx.compose.ui.unit.dp
 import io.monstarlab.mosaic.slider.Slider
 import io.monstarlab.mosaic.slider.SliderColors
 import io.monstarlab.mosaic.slider.distribution.SliderValuesDistribution
+import kotlin.math.round
 import kotlin.math.roundToInt
 import androidx.compose.material3.Slider as MaterialSlider
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SliderDemo() = Scaffold(modifier = Modifier) {
+fun SliderDemo() = Scaffold(
+    modifier = Modifier,
+    topBar = {
+        TopAppBar(
+            title = { Text(text = "Mosaic - Slider") }
+        )
+    }
+) {
     Column(
         modifier = Modifier
             .padding(it)
@@ -57,7 +68,7 @@ fun SliderDemo() = Scaffold(modifier = Modifier) {
 
 @Composable
 fun MosaicSliderDemo() {
-    Column {
+    Column(verticalArrangement = Arrangement.spacedBy(32.dp)) {
         val colors = SliderColors(
             activeTrackColor = Color.Black,
             disabledRangeTrackColor = Color.Red,
@@ -65,14 +76,23 @@ fun MosaicSliderDemo() {
         )
         var enabled by remember { mutableStateOf(true) }
         var isCustom by remember { mutableStateOf(false) }
-        var linearDistribution by remember { mutableStateOf(false) }
+        var nonLinearDistribution by remember { mutableStateOf(false) }
         var sliderValue by remember { mutableFloatStateOf(500f) }
+        var disableSubRange by remember { mutableStateOf(false) }
 
-        MaterialSlider(
-            value = sliderValue,
-            onValueChange = { sliderValue = it },
-            valueRange = 0f..1000f,
-        )
+        Column(
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+        ) {
+
+            MaterialSlider(
+                value = sliderValue,
+                onValueChange = { sliderValue = it },
+                valueRange = 0f..1000f,
+            )
+            Text(text = "Material slider")
+        }
+
 
         val modifier = if (isCustom) {
             Modifier
@@ -91,59 +111,66 @@ fun MosaicSliderDemo() {
             )
         }
 
-        Slider(
-            value = sliderValue,
-            onValueChange = { sliderValue = it },
-            modifier = modifier,
-            enabled = enabled,
-            colors = colors,
+        Column(
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+        ) {
 
-            range = 0f..1000f,
-            disabledRange = 50f..300f,
-            valueDistribution = if (linearDistribution) {
-                SliderValuesDistribution.Linear
-            } else {
-                fragmentedDistribution
-            },
-            thumb = {
-                if (isCustom) {
-                    val transition = rememberInfiniteTransition(label = "")
-                    val color = transition.animateColor(
-                        initialValue = Color.Red,
-                        targetValue = Color.Green,
-                        animationSpec = infiniteRepeatable(
-                            animation = tween(1000, easing = LinearEasing),
-                            repeatMode = RepeatMode.Reverse,
-                        ),
-                        label = "",
-                    )
+            Slider(
+                value = sliderValue,
+                onValueChange = { sliderValue = it },
+                modifier = modifier,
+                enabled = enabled,
+                colors = colors,
 
-                    val rotation = transition.animateFloat(
-                        initialValue = 0f,
-                        targetValue = 360f,
-                        animationSpec = infiniteRepeatable(
-                            tween(5000, easing = LinearEasing),
-                            repeatMode = RepeatMode.Restart,
-                        ),
-                        label = "",
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .rotate(rotation.value)
-                            .size(48.dp)
-                            .background(color.value),
-                    )
+                range = 0f..1000f,
+                disabledRange = if (disableSubRange) 800f..1000f else 0f..0f,
+                valueDistribution = if (nonLinearDistribution) {
+                    fragmentedDistribution
                 } else {
-                    Box(
-                        modifier = Modifier
-                            .size(16.dp)
-                            .background(colors.thumbColor(enabled), CircleShape),
-                    )
-                }
-            },
+                    SliderValuesDistribution.Linear
+                },
+                thumb = {
+                    if (isCustom) {
+                        val transition = rememberInfiniteTransition(label = "")
+                        val color = transition.animateColor(
+                            initialValue = Color.Red,
+                            targetValue = Color.Green,
+                            animationSpec = infiniteRepeatable(
+                                animation = tween(1000, easing = LinearEasing),
+                                repeatMode = RepeatMode.Reverse,
+                            ),
+                            label = "",
+                        )
 
-        )
+                        val rotation = transition.animateFloat(
+                            initialValue = 0f,
+                            targetValue = 360f,
+                            animationSpec = infiniteRepeatable(
+                                tween(5000, easing = LinearEasing),
+                                repeatMode = RepeatMode.Restart,
+                            ),
+                            label = "",
+                        )
+
+                        Box(
+                            modifier = Modifier
+                                .rotate(rotation.value)
+                                .size(48.dp)
+                                .background(color.value),
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .size(20.dp)
+                                .background(colors.thumbColor(enabled), CircleShape),
+                        )
+                    }
+                },
+            )
+            Text(text = "Mosaic slider")
+
+        }
 
         Text(
             text = "Current value: ${sliderValue.roundToInt()}",
@@ -156,7 +183,6 @@ fun MosaicSliderDemo() {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 32.dp),
         ) {
             LabeledSwitch(
                 label = "Slider enabled",
@@ -168,15 +194,32 @@ fun MosaicSliderDemo() {
                 label = "Customise",
                 checked = isCustom,
                 onValueChange = { isCustom = it },
+                alignment = Alignment.End
+
             )
         }
 
-        LabeledSwitch(
-            label = "Use linear distribution or parabolic",
-            checked = linearDistribution,
-            onValueChange = { linearDistribution = it },
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)
+        ) {
+
+            LabeledSwitch(
+                label = "Use Non-Linear distribution",
+                checked = nonLinearDistribution,
+                onValueChange = { nonLinearDistribution = it },
+            )
+
+            LabeledSwitch(
+                label = "Disable sub-range",
+                checked = disableSubRange,
+                onValueChange = { disableSubRange = it },
+                alignment = Alignment.End
+            )
+        }
+
     }
 }
 
@@ -186,13 +229,17 @@ private fun LabeledSwitch(
     checked: Boolean,
     onValueChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    alignment: Alignment.Horizontal = Alignment.Start,
 ) {
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = alignment,
 
-    ) {
-        Text(text = label, textAlign = TextAlign.Center)
+        ) {
+        Text(
+            text = label,
+            textAlign = TextAlign.Start
+        )
         Spacer(modifier = Modifier.height(3.dp))
         Switch(
             checked = checked,
