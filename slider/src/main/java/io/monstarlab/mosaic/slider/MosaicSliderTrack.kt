@@ -13,10 +13,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun SliderTrack(
+internal fun MosaicSliderTrack(
     @FloatRange(from = 0.0, to = 1.0) progress: Float,
     enabled: Boolean,
-    colors: SliderColors,
+    colors: MosaicSliderColors,
     modifier: Modifier = Modifier,
     disabledRange: ClosedFloatingPointRange<Float> = 0f..0f,
 ) {
@@ -55,9 +55,9 @@ internal fun SliderTrack(
 @Preview
 @Composable
 private fun PreviewEnabledSliderTrack() {
-    SliderTrack(
+    MosaicSliderTrack(
         progress = 0.5f,
-        colors = SliderColors(Color.Yellow, Color.Red),
+        colors = MosaicSliderColors(Color.Yellow, Color.Red),
         disabledRange = 0.8f..1f,
         enabled = true,
     )
@@ -66,9 +66,9 @@ private fun PreviewEnabledSliderTrack() {
 @Preview
 @Composable
 private fun PreviewDisabledSliderTrack() {
-    SliderTrack(
+    MosaicSliderTrack(
         progress = 0.5f,
-        colors = SliderColors(Color.Yellow, Color.Red),
+        colors = MosaicSliderColors(Color.Yellow, Color.Red),
         disabledRange = 0.8f..1f,
         enabled = false,
     )

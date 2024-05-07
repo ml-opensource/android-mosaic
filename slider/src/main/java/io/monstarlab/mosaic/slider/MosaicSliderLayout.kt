@@ -11,11 +11,11 @@ import kotlin.math.max
 import kotlin.math.roundToInt
 
 @Composable
-public fun SliderLayout(
-    state: SliderState,
+internal fun MosaicSliderLayout(
+    state: MosaicSliderState,
     modifier: Modifier = Modifier,
     track: @Composable () -> Unit,
-    thumb: @Composable (SliderState) -> Unit,
+    thumb: @Composable (MosaicSliderState) -> Unit,
 ) {
     Layout(
         modifier = modifier.requiredSizeIn(SliderDefaults.HandleWidth, SliderDefaults.HandleHeight),

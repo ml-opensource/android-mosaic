@@ -22,7 +22,7 @@ import kotlinx.coroutines.coroutineScope
  * A compose state for the Slider component
  * Responsible for managing internal properties such as offset value and drag / click behaviours
  */
-public class SliderState(
+public class MosaicSliderState(
     initialValue: Float,
     public val range: ClosedFloatingPointRange<Float>,
     private val disabledRange: ClosedFloatingPointRange<Float>,
@@ -183,24 +183,24 @@ public class SliderState(
 }
 
 /**
- * Creates a [SliderState] that holds the state of a slider
+ * Creates a [MosaicSliderState] that holds the state of a slider
  * @param initialValue the initial value of the slider
  * @param range the range of the slider
  * @param valueDistribution the distribution of the slider values
  * @param disabledRange the range of the slider that is disabled
  *
- * @return a [SliderState] that holds the state of a slider
+ * @return a [MosaicSliderState] that holds the state of a slider
 
  */
 @Composable
-public fun rememberSliderState(
+public fun rememberMosaicSliderState(
     initialValue: Float,
     range: ClosedFloatingPointRange<Float> = 0f..1f,
     valueDistribution: SliderValuesDistribution = SliderValuesDistribution.Linear,
     disabledRange: ClosedFloatingPointRange<Float> = EmptyRange,
-): SliderState {
+): MosaicSliderState {
     return remember(range, valueDistribution, disabledRange) {
-        SliderState(
+        MosaicSliderState(
             initialValue = initialValue,
             range = range,
             disabledRange = disabledRange,

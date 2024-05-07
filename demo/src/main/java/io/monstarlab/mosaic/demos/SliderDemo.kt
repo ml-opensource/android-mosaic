@@ -39,10 +39,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.monstarlab.mosaic.slider.Slider
-import io.monstarlab.mosaic.slider.SliderColors
+import io.monstarlab.mosaic.slider.MosaicSlider
+import io.monstarlab.mosaic.slider.MosaicSliderColors
 import io.monstarlab.mosaic.slider.distribution.SliderValuesDistribution
-import kotlin.math.round
 import kotlin.math.roundToInt
 import androidx.compose.material3.Slider as MaterialSlider
 
@@ -69,7 +68,7 @@ fun SliderDemo() = Scaffold(
 @Composable
 fun MosaicSliderDemo() {
     Column(verticalArrangement = Arrangement.spacedBy(32.dp)) {
-        val colors = SliderColors(
+        val colors = MosaicSliderColors(
             activeTrackColor = Color.Black,
             disabledRangeTrackColor = Color.Red,
             thumbColor = Color.Yellow,
@@ -116,7 +115,7 @@ fun MosaicSliderDemo() {
             modifier = Modifier
         ) {
 
-            Slider(
+            MosaicSlider(
                 value = sliderValue,
                 onValueChange = { sliderValue = it },
                 modifier = modifier,

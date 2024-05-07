@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
  * Colors of the slider
  */
 @Immutable
-public class SliderColors(
+public class MosaicSliderColors(
     /**
      * Color of the active track representing the track to the start of the thumb
      */

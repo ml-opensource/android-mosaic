@@ -30,10 +30,10 @@ import io.monstarlab.mosaic.slider.distribution.SliderValuesDistribution
  * @param thumb the composable function used to render the slider thumb
  */
 @Composable
-public fun Slider(
+public fun MosaicSlider(
     value: Float,
     onValueChange: (Float) -> Unit,
-    colors: SliderColors,
+    colors: MosaicSliderColors,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     valueDistribution: SliderValuesDistribution = SliderValuesDistribution.Linear,
@@ -41,10 +41,10 @@ public fun Slider(
     disabledRange: ClosedFloatingPointRange<Float> = EmptyRange,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     thumb: @Composable (
-        SliderState,
+        MosaicSliderState,
     ) -> Unit = { DefaultSliderThumb(colors = colors, enabled = enabled) },
 ) {
-    val state = rememberSliderState(value, range, valueDistribution, disabledRange)
+    val state = rememberMosaicSliderState(value, range, valueDistribution, disabledRange)
     state.onValueChange = onValueChange
     state.value = value
 
@@ -61,7 +61,7 @@ public fun Slider(
         }
     }
 
-    Slider(
+    MosaicSlider(
         state = state,
         interactionSource = interactionSource,
         modifier = modifier,
@@ -81,19 +81,19 @@ public fun Slider(
  * @param thumb the composable function used to render the slider thumb
  */
 @Composable
-public fun Slider(
-    state: SliderState,
-    colors: SliderColors,
+public fun MosaicSlider(
+    state: MosaicSliderState,
+    colors: MosaicSliderColors,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    thumb: @Composable (SliderState) -> Unit = {
+    thumb: @Composable (MosaicSliderState) -> Unit = {
         DefaultSliderThumb(colors = colors, enabled = enabled)
     },
 ) {
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
-    SliderLayout(
+    MosaicSliderLayout(
         modifier = Modifier
             .sliderSemantics(state, enabled)
             .focusable(enabled, interactionSource)
@@ -101,7 +101,7 @@ public fun Slider(
             .sliderDragModifier(state, enabled, interactionSource, isRtl),
         thumb = thumb,
         track = {
-            SliderTrack(
+            MosaicSliderTrack(
                 progress = state.offsetAsFraction,
                 colors = colors,
                 disabledRange = state.disabledRangeAsFractions,
@@ -114,7 +114,7 @@ public fun Slider(
 }
 
 @Composable
-internal fun DefaultSliderThumb(enabled: Boolean, colors: SliderColors) {
+internal fun DefaultSliderThumb(enabled: Boolean, colors: MosaicSliderColors) {
     Box(
         modifier = Modifier
             .size(SliderDefaults.ThumbSize)
@@ -130,10 +130,10 @@ internal val EmptyRange = 0f..0f
 @Preview
 @Composable
 private fun PreviewSlider() {
-    Slider(
+    MosaicSlider(
         value = 0.5f,
         onValueChange = {},
-        colors = SliderColors(Color.Yellow, Color.Red),
+        colors = MosaicSliderColors(Color.Yellow, Color.Red),
         disabledRange = 0.8f..1f,
     )
 }
@@ -141,10 +141,10 @@ private fun PreviewSlider() {
 @Preview
 @Composable
 private fun PreviewDisabledSlider() {
-    Slider(
+    MosaicSlider(
         value = 0.5f,
         onValueChange = {},
-        colors = SliderColors(Color.Yellow, Color.Red),
+        colors = MosaicSliderColors(Color.Yellow, Color.Red),
         disabledRange = 0.8f..1f,
     )
 }
