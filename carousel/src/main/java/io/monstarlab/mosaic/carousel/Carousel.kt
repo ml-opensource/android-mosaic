@@ -24,6 +24,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * A Carousel that animates between different content at a given interval. The user
+ * can also manually navigate between the different items by clicking the left and right sides
+ * of the component
+ *
+ * By Holding the component down, the carousel will stop and will resume when the user releases.
+ *
+ * @param state the state of the carousel.
+ * @param modifier the modifier to apply to this layout.
+ * @param label accessibility label to use for the carousel.
+ * @param transitionSpec the transition to use when changing the content of the carousel.
+ * @param content the content to display in the carousel.
+ */
 @Composable
 public fun Carousel(
     state: CarouselState,

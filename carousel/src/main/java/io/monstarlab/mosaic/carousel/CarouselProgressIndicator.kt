@@ -15,6 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+/**
+ * A progress indicator that shows the progress of a carousel and the progress of the current item.
+ * @param state The state of the carousel.
+ * @param modifier The modifier to apply to this layout.
+ * @param segmentActiveColor The color of the active segment.
+ * @param segmentInactiveColor The color of the inactive segments.
+ * @param segmentCornerRadius The corner radius of the segments.
+ */
 @Composable
 public fun CarouselProgressIndicator(
     state: CarouselState,
