@@ -103,7 +103,7 @@ By specifying disabled range you limit where user can drag the thumb, thus makin
 You can specifiy the `disabledRange` in two ways, depending on how you manage the slider state 
 
 ```kotlin
-val slideState = rememberSliderState(
+val slideState = rememberMosaicSliderState(
     initialValue = 10f,
     range = 0f..100f,
     disabledRange = 40f..60f // disables range from 40 to 60
@@ -113,10 +113,10 @@ val slideState = rememberSliderState(
 Or when using state-less option
 
 ```kotlin
-Slider(
+MosaicSlider(
     value = 10f,
     onValueChange = { },
-    colors = SliderColors(Color.Green),
+    colors = MosaicSliderColors(Color.Green),
     disabledRange = 40f..60f,
 )
 ```
@@ -126,7 +126,7 @@ Finally you might want to provide custom colors for this range to make sure the 
 The color of the disabled range is controlled by the `disabledRangeTrackColor` property of `AppColors`. By default it is the same as the `activeTrackColor`
 
 ```kotlin
-val colors = SliderColors(
+val colors = MosaicSliderColors(
     activeTrackColor = Color.Green, 
     disabledRangeTrackColor = Color.Red
 )
@@ -181,7 +181,7 @@ object MyDistribution: SliderValueDistribution {
      override fun inverse(value: Float): Float {
        // inverse value
     }
-
+s
     override fun interpolate(value: Float): Float {
         // interpolate value
     }

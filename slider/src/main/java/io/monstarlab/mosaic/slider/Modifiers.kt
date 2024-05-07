@@ -12,7 +12,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.setProgress
 
 internal fun Modifier.sliderDragModifier(
-    state: SliderState,
+    state: MosaicSliderState,
     enabled: Boolean,
     interactionSource: MutableInteractionSource,
     isRtl: Boolean,
@@ -26,7 +26,7 @@ internal fun Modifier.sliderDragModifier(
 )
 
 internal fun Modifier.sliderTapModifier(
-    state: SliderState,
+    state: MosaicSliderState,
     enabled: Boolean,
     interactionSource: MutableInteractionSource,
 ): Modifier {
@@ -41,7 +41,7 @@ internal fun Modifier.sliderTapModifier(
     }
 }
 
-internal fun Modifier.sliderSemantics(state: SliderState, enabled: Boolean): Modifier {
+internal fun Modifier.sliderSemantics(state: MosaicSliderState, enabled: Boolean): Modifier {
     return semantics {
         if (!enabled) disabled()
         setProgress(
