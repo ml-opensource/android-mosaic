@@ -30,59 +30,56 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen(
     onSliderClick: () -> Unit,
     onCarouselClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) = Scaffold(
     modifier = modifier,
-    topBar = { TopAppBar(title = { Text(text = "Mosaic Demo") }) }
+    topBar = { TopAppBar(title = { Text(text = "Mosaic Demo") }) },
 ) {
-
     Column(
         verticalArrangement = Arrangement.spacedBy(32.dp),
         modifier = Modifier
             .padding(it)
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_mosaic_log),
             contentDescription = "logo",
             modifier = Modifier
                 .size(150.dp)
-                .align(Alignment.CenterHorizontally)
+                .align(Alignment.CenterHorizontally),
         )
 
         Text(
             text = "Collection of Jetpack Compose UI components and utilities.",
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Column {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
+                modifier = Modifier,
             ) {
                 DemoButton(
                     resource = R.drawable.ic_slider,
                     text = "Slider",
                     modifier = Modifier.weight(0.3f),
-                    onClick = onSliderClick
+                    onClick = onSliderClick,
                 )
 
                 DemoButton(
                     resource = R.drawable.ic_carousel,
                     text = "Carousel",
                     modifier = Modifier.weight(0.3f),
-                    onClick = onCarouselClick
+                    onClick = onCarouselClick,
                 )
 
                 Spacer(modifier = Modifier.weight(0.3f))
             }
         }
-
     }
 }
-
 
 @Composable
 private fun DemoButton(
@@ -96,10 +93,9 @@ private fun DemoButton(
         shape = RoundedCornerShape(16.dp),
         shadowElevation = 16.dp,
         tonalElevation = 2.dp,
-        onClick = onClick
+        onClick = onClick,
     ) {
         Column(verticalArrangement = Arrangement.SpaceBetween) {
-
             Spacer(modifier = Modifier)
 
             Icon(
@@ -116,14 +112,10 @@ private fun DemoButton(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 16.dp),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
-
-
         }
-
     }
-
 }
 
 @Preview

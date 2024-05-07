@@ -51,9 +51,9 @@ fun SliderDemo() = Scaffold(
     modifier = Modifier,
     topBar = {
         TopAppBar(
-            title = { Text(text = "Mosaic - Slider") }
+            title = { Text(text = "Mosaic - Slider") },
         )
-    }
+    },
 ) {
     Column(
         modifier = Modifier
@@ -81,9 +81,8 @@ fun MosaicSliderDemo() {
 
         Column(
             verticalArrangement = Arrangement.Top,
-            modifier = Modifier
+            modifier = Modifier,
         ) {
-
             MaterialSlider(
                 value = sliderValue,
                 onValueChange = { sliderValue = it },
@@ -91,7 +90,6 @@ fun MosaicSliderDemo() {
             )
             Text(text = "Material slider")
         }
-
 
         val modifier = if (isCustom) {
             Modifier
@@ -112,9 +110,8 @@ fun MosaicSliderDemo() {
 
         Column(
             verticalArrangement = Arrangement.Top,
-            modifier = Modifier
+            modifier = Modifier,
         ) {
-
             MosaicSlider(
                 value = sliderValue,
                 onValueChange = { sliderValue = it },
@@ -168,7 +165,6 @@ fun MosaicSliderDemo() {
                 },
             )
             Text(text = "Mosaic slider")
-
         }
 
         Text(
@@ -181,7 +177,7 @@ fun MosaicSliderDemo() {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             LabeledSwitch(
                 label = "Slider enabled",
@@ -193,7 +189,7 @@ fun MosaicSliderDemo() {
                 label = "Customise",
                 checked = isCustom,
                 onValueChange = { isCustom = it },
-                alignment = Alignment.End
+                alignment = Alignment.End,
 
             )
         }
@@ -202,9 +198,8 @@ fun MosaicSliderDemo() {
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.CenterHorizontally)
+                .align(Alignment.CenterHorizontally),
         ) {
-
             LabeledSwitch(
                 label = "Use Non-Linear distribution",
                 checked = nonLinearDistribution,
@@ -215,10 +210,9 @@ fun MosaicSliderDemo() {
                 label = "Disable sub-range",
                 checked = disableSubRange,
                 onValueChange = { disableSubRange = it },
-                alignment = Alignment.End
+                alignment = Alignment.End,
             )
         }
-
     }
 }
 
@@ -234,10 +228,10 @@ private fun LabeledSwitch(
         modifier = modifier,
         horizontalAlignment = alignment,
 
-        ) {
+    ) {
         Text(
             text = label,
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Start,
         )
         Spacer(modifier = Modifier.height(3.dp))
         Switch(

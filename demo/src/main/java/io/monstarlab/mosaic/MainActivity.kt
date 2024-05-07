@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(
                     navController = navController,
-                    startDestination = Routes.Home.value
+                    startDestination = Routes.Home.value,
                 ) {
                     composable(Routes.Home.value) {
                         HomeScreen(
@@ -31,8 +31,8 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(Routes.SliderDemo.value)
                             },
                             onCarouselClick = {
-
-                            })
+                            },
+                        )
                     }
 
                     composable(Routes.SliderDemo.value) {
