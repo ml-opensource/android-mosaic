@@ -6,7 +6,7 @@
 </p>
 
 <p align="center" style="font-size: 15px;">
-  <strong>Mosaic</strong> is acollection of Jetpack Compose UI components and utilities. It is designed to accelerate the development process by providing a rich set of tools and components that are ready to use out of the box. These components are highly customizable ensuring to fit in your use case. 
+  <strong>Mosaic</strong> is a collection of Jetpack Compose UI components and utilities. It is designed to accelerate the development process by providing a rich set of tools and components that are ready to use out of the box. These components are highly customizable ensuring to fit in your use case. 
 </p>
 
 
