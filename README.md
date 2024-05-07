@@ -15,6 +15,7 @@
 ### 🎛️ [Mosaic Slider](./slider/)
 Mosaic Slider is a highly customizable slider component that allows precise customization of values distribution and disabled ranges. Its API is similar to Material sliders, making it easy to integrate into existing projects.
 
+![Disabled range](./docs/assets/example_disabled_range.gif)
 
 
 ## Contributing
