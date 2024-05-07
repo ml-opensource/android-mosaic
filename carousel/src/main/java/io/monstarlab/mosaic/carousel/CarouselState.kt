@@ -3,20 +3,19 @@ package io.monstarlab.mosaic.carousel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import kotlin.time.Duration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.time.Duration
 
 public class CarouselState(
     public val itemsCount: Int,
     private val stayDuration: Duration,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
 ) {
 
     private var carouselProgress: Float by mutableFloatStateOf(0f)
@@ -39,27 +38,25 @@ public class CarouselState(
             return (carouselProgress - currentItem).coerceIn(0f, 1f)
         }
 
-
     public fun stop() {
         job?.cancel()
     }
-
 
     public fun moveToPrevious() {
         updateProgress(currentItem - 1f)
     }
 
     public fun moveToNext() {
-       updateProgress(currentItem + 1f)
+        updateProgress(currentItem + 1f)
     }
 
     public fun moveTo(index: Int) {
-       updateProgress(index.toFloat())
+        updateProgress(index.toFloat())
     }
 
-    public fun start()  {
+    public fun start() {
         job?.cancel()
-        job =  scope.launch {
+        job = scope.launch {
             while (true) {
                 delay(CarouselDefaults.refreshRate)
                 updateProgress(carouselProgress + itemProgressIncrement)
@@ -71,27 +68,24 @@ public class CarouselState(
     private fun updateProgress(progress: Float) {
         carouselProgress = when {
             progress < 0 -> 0f
-            progress > itemsCount ->  0f
+            progress > itemsCount -> 0f
             else -> progress
         }
     }
-
 }
-
 
 @Composable
 public fun rememberCarouselState(
     itemsCount: Int,
     stayDuration: Duration = CarouselDefaults.itemDuration,
 ): CarouselState {
-
     val scope = rememberCoroutineScope()
 
     return remember(itemsCount) {
         CarouselState(
             itemsCount = itemsCount,
             stayDuration = stayDuration,
-            scope = scope
+            scope = scope,
         )
     }
 }

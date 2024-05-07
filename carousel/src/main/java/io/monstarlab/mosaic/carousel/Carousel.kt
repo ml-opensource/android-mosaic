@@ -24,43 +24,40 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 @Composable
 public fun Carousel(
     state: CarouselState,
     modifier: Modifier = Modifier,
     label: String = "",
     transitionSpec: CarouselTransition = defaultCarouselTransition(),
-    content: @Composable AnimatedContentScope.(Int) -> Unit
+    content: @Composable AnimatedContentScope.(Int) -> Unit,
 ) {
-
     LaunchedEffect(state) {
         state.start()
     }
 
     Box(modifier = modifier) {
-
         AnimatedContent(
             targetState = state.currentItem,
             label = label,
             transitionSpec = transitionSpec,
-            content = content
+            content = content,
         )
 
         Row(
             horizontalArrangement = Arrangement.Start,
-            modifier = Modifier
+            modifier = Modifier,
         ) {
             ClickableBox(
                 onClick = state::moveToPrevious,
                 onHold = state::stop,
-                onRelease = state::start
+                onRelease = state::start,
             )
 
             ClickableBox(
                 onClick = state::moveToNext,
                 onHold = state::stop,
-                onRelease = state::start
+                onRelease = state::start,
             )
         }
     }
@@ -70,7 +67,7 @@ public fun Carousel(
 private fun RowScope.ClickableBox(
     onClick: () -> Unit = {},
     onHold: () -> Unit = {},
-    onRelease: () -> Unit = {}
+    onRelease: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
@@ -91,13 +88,11 @@ private fun RowScope.ClickableBox(
                         onHold()
                         awaitRelease()
                         onRelease()
-                    }
+                    },
                 )
-            }
+            },
     )
-
 }
-
 
 @Preview
 @Composable
@@ -109,15 +104,14 @@ private fun PreviewCarousel() {
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.Center)
-                    .background(if (it % 2 == 0) Color.Yellow else Color.Green)
+                    .background(if (it % 2 == 0) Color.Yellow else Color.Green),
             ) {
                 BasicText(
-                    text = "${it}",
+                    text = "$it",
                     modifier = Modifier.align(Alignment.Center),
-                    style = TextStyle.Default.copy(fontSize = 48.sp)
+                    style = TextStyle.Default.copy(fontSize = 48.sp),
                 )
             }
         }
     }
-
 }

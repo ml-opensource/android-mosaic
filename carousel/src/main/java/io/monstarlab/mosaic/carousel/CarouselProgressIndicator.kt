@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 public fun CarouselProgressIndicator(
     state: CarouselState,
@@ -23,7 +22,6 @@ public fun CarouselProgressIndicator(
     segmentActiveColor: Color = Color.White,
     segmentInactiveColor: Color = Color.White.copy(alpha = 0.5f),
     segmentCornerRadius: CornerRadius = CornerRadius(16f),
-
 ) {
     CarouselProgressIndicator(
         itemsTotal = state.itemsCount,
@@ -32,7 +30,7 @@ public fun CarouselProgressIndicator(
         modifier = modifier,
         segmentActiveColor = segmentActiveColor,
         segmentInactiveColor = segmentInactiveColor,
-        segmentCornerRadius = segmentCornerRadius
+        segmentCornerRadius = segmentCornerRadius,
     )
 }
 
@@ -48,7 +46,7 @@ internal fun CarouselProgressIndicator(
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(1.dp),
-        modifier = modifier.height(1.dp)
+        modifier = modifier.height(1.dp),
     ) {
         repeat(itemsTotal) { index ->
             val progress = when {
@@ -61,14 +59,11 @@ internal fun CarouselProgressIndicator(
                 modifier = Modifier.weight(1f / itemsTotal),
                 color = segmentActiveColor,
                 inactiveColor = segmentInactiveColor,
-                cornerRadius = segmentCornerRadius
+                cornerRadius = segmentCornerRadius,
             )
         }
     }
-
 }
-
-
 
 @Composable
 private fun ProgressSegment(
@@ -76,7 +71,7 @@ private fun ProgressSegment(
     modifier: Modifier = Modifier,
     color: Color,
     inactiveColor: Color,
-    cornerRadius: CornerRadius
+    cornerRadius: CornerRadius,
 ) {
     Canvas(
         modifier = modifier.fillMaxSize(),
@@ -87,13 +82,13 @@ private fun ProgressSegment(
             color = color,
             topLeft = Offset.Zero,
             size = Size(activeWidth, size.height),
-            cornerRadius = cornerRadius
+            cornerRadius = cornerRadius,
         )
         drawRoundRect(
             color = inactiveColor,
             topLeft = Offset(x = activeWidth, y = 0f),
             size = Size(size.width - activeWidth, size.height),
-            cornerRadius = cornerRadius
+            cornerRadius = cornerRadius,
         )
     }
 }
