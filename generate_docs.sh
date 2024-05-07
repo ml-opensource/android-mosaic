@@ -10,8 +10,8 @@ cp CONTRIBUTING.md docs/contributing.md
 sed -i  's/\.\/docs\/assets/\.\/assets/g' docs/index.md
 
 # replace link to (CONTRIBUTING.md) and (LICENSE.md) inside index.md so they are lowercase
-sed -i '' 's/CONTRIBUTING.md/contributing.md/g' docs/index.md
-sed -i '' 's/LICENSE.md/license.md/g' docs/index.md
+sed -i 's/CONTRIBUTING.md/contributing.md/g' docs/index.md
+sed -i 's/LICENSE.md/license.md/g' docs/index.md
 
 
 

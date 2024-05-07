@@ -103,7 +103,7 @@ By specifying disabled range you limit where user can drag the thumb, thus makin
 You can specifiy the `disabledRange` in two ways, depending on how you manage the slider state 
 
 ```kotlin
-val slideState = rememberSliderState(
+val slideState = rememberMosaicSliderState(
     initialValue = 10f,
     range = 0f..100f,
     disabledRange = 40f..60f // disables range from 40 to 60
@@ -113,10 +113,10 @@ val slideState = rememberSliderState(
 Or when using state-less option
 
 ```kotlin
-Slider(
+MosaicSlider(
     value = 10f,
     onValueChange = { },
-    colors = SliderColors(Color.Green),
+    colors = MosaicSliderColors(Color.Green),
     disabledRange = 40f..60f,
 )
 ```
@@ -126,7 +126,7 @@ Finally you might want to provide custom colors for this range to make sure the 
 The color of the disabled range is controlled by the `disabledRangeTrackColor` property of `AppColors`. By default it is the same as the `activeTrackColor`
 
 ```kotlin
-val colors = SliderColors(
+val colors = MosaicSliderColors(
     activeTrackColor = Color.Green, 
     disabledRangeTrackColor = Color.Red
 )
@@ -142,11 +142,11 @@ This allows you to control how the user interacts with the slider, the specific 
 
 ![Distributions](./assets/example_distribution.gif)
 
-### Linear Values Distribution
+#### Linear Values Distribution
 By default, Mosaic Slider will use `SliderValuesDistribution.Linear` which would arrange values in a linear fashion just like any other Slider
 
 
-### Parabolic Values Distribution
+#### Parabolic Values Distribution
 Parabolic Values Distribution allows you to arrange your values in parabolic fashion. For this, you would have to provide your `a`,`b` and `c` values for the `axˆ2 + bx+ c` equation.
 
 !!! note
@@ -156,7 +156,7 @@ Parabolic Values Distribution allows you to arrange your values in parabolic fas
 val myDistribution = SliderValuesDistribution.parbolic(a, b, c)
 ```
 
-### Checkpoints Values Distribution
+#### Checkpoints Values Distribution
 
 `CheckpointValuesDistribution` provides a more convinient way to customize distribution. It is based on the list of "checkoints" where each one of them is placed along the SliderTrack and comes with specific values.
 
@@ -172,7 +172,7 @@ val distribution = SliderValuesDistribution.checkpoints(
 )
 ```
 
-### Make your own distribution
+#### Make your own distribution
 `SliderValuesDistribution` is a simple interface you can extend and build your own distribution.
 
 ```kotlin
@@ -181,7 +181,7 @@ object MyDistribution: SliderValueDistribution {
      override fun inverse(value: Float): Float {
        // inverse value
     }
-
+s
     override fun interpolate(value: Float): Float {
         // interpolate value
     }

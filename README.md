@@ -6,7 +6,7 @@
 </p>
 
 <p align="center" style="font-size: 15px;">
-  <strong>Mosaic</strong> is acollection of Jetpack Compose UI components and utilities. It is designed to accelerate the development process by providing a rich set of tools and components that are ready to use out of the box. These components are highly customizable ensuring to fit in your use case. 
+  <strong>Mosaic</strong> is a collection of Jetpack Compose UI components and utilities. It is designed to accelerate the development process by providing a rich set of tools and components that are ready to use out of the box. These components are highly customizable ensuring to fit in your use case. 
 </p>
 
 
@@ -15,6 +15,7 @@
 ### 🎛️ [Mosaic Slider](./slider/)
 Mosaic Slider is a highly customizable slider component that allows precise customization of values distribution and disabled ranges. Its API is similar to Material sliders, making it easy to integrate into existing projects.
 
+![Disabled range](./docs/assets/example_disabled_range.gif)
 
 
 ## Contributing

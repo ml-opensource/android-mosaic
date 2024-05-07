@@ -1,7 +1,5 @@
 package io.monstarlab.mosaic.slider.distribution
 
-import androidx.annotation.FloatRange
-
 /**
  * Determines how the values will be distributed across the slider
  * Usually the values are distributed in a linear fashion, this interfaces allows
@@ -12,18 +10,18 @@ public interface SliderValuesDistribution {
 
     /**
      * Interpolates a value based on the distribution strategy.
-     * @param value the normalized input value to interpolate, it must be between 0 and 1
-     * @return the normalized interpolated value based on the distribution strategy, between 0 and 1
+     * @param value the normalized input value to interpolate
+     * @return the interpolated value based on the distribution strategy
      */
-    public fun interpolate(@FloatRange(0.0, 1.0) value: Float): Float
+    public fun interpolate(value: Float): Float
 
     /**
      * Inversely interpolates a value from the output range to the input range based on the distribution strategy.
      *
-     * @param value the normalized value to inverse interpolate, must be between 0 and 1
-     * @return the normalized inverse interpolated value based on the distribution strategy, between 0 and 1
+     * @param value to inverse interpolate
+     * @return inverse interpolated value based on the distribution strategy
      */
-    public fun inverse(@FloatRange(0.0, 1.0) value: Float): Float
+    public fun inverse(value: Float): Float
 
     public companion object {
 
