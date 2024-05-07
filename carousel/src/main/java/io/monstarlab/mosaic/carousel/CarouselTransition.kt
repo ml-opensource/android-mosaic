@@ -11,7 +11,6 @@ import androidx.compose.animation.togetherWith
  */
 public typealias CarouselTransition = AnimatedContentTransitionScope<Int>.() -> ContentTransform
 
-
 internal fun defaultCarouselTransition(): CarouselTransition {
     return {
         fadeIn() togetherWith fadeOut()
