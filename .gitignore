@@ -8,13 +8,10 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-<<<<<<< HEAD
 /.idea/misc.xml
 /.idea/deploymentTargetDropDown.xml
 /.idea/deploymentTargetSelector.xml
-=======
 /.idea/*
->>>>>>> origin/main
 .DS_Store
 /build
 /captures
