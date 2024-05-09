@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.monstarlab.mosaic.demos.CarouselDemo
 import io.monstarlab.mosaic.demos.SliderDemo
 import io.monstarlab.mosaic.ui.theme.MosaicTheme
 
@@ -31,12 +32,17 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(Routes.SliderDemo.value)
                             },
                             onCarouselClick = {
+                                navController.navigate(Routes.CarouselDemo.value)
                             },
                         )
                     }
 
                     composable(Routes.SliderDemo.value) {
                         SliderDemo()
+                    }
+
+                    composable(Routes.CarouselDemo.value) {
+                        CarouselDemo()
                     }
                 }
             }

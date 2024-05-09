@@ -86,13 +86,6 @@ private fun RowScope.ClickableBox(
         modifier = Modifier
             .fillMaxHeight()
             .weight(0.5f)
-            .run {
-                if (LocalInspectionMode.current) {
-                    border(1.dp, Color.Red)
-                } else {
-                    this
-                }
-            }
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = { onClick() },
