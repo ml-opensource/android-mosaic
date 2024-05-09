@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
  * @param stayDuration The duration each item should stay on screen.
  * @param scope The coroutine scope to use for the carousel.
  */
-public class CarouselState(
+public class MosaicCarouselState(
     public val itemsCount: Int,
     private val stayDuration: Duration,
     private val scope: CoroutineScope,
@@ -106,20 +106,20 @@ public class CarouselState(
 }
 
 /**
- * Creates a [CarouselState] that will remember its state across compositions.
+ * Creates a [MosaicCarouselState] that will remember its state across compositions.
  * @param itemsCount The total number of items in the carousel.
  * @param stayDuration The duration each item should stay on screen. By default, it is 2 seconds.
- * @return A [CarouselState] that will remember its state across compositions.
+ * @return A [MosaicCarouselState] that will remember its state across compositions.
  */
 @Composable
 public fun rememberCarouselState(
     itemsCount: Int,
     stayDuration: Duration = CarouselDefaults.itemDuration,
-): CarouselState {
+): MosaicCarouselState {
     val scope = rememberCoroutineScope()
 
     return remember(itemsCount) {
-        CarouselState(
+        MosaicCarouselState(
             itemsCount = itemsCount,
             stayDuration = stayDuration,
             scope = scope,

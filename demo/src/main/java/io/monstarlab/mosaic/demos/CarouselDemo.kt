@@ -6,7 +6,6 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.Place
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,8 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.monstarlab.mosaic.carousel.Carousel
-import io.monstarlab.mosaic.carousel.CarouselProgressIndicator
+import io.monstarlab.mosaic.carousel.MosaicCarousel
+import io.monstarlab.mosaic.carousel.MosaicCarouselProgressBar
 import io.monstarlab.mosaic.carousel.rememberCarouselState
 import io.monstarlab.mosaic.ui.theme.MosaicTheme
 import kotlin.time.Duration.Companion.seconds
@@ -50,7 +48,7 @@ fun CarouselDemo() = Scaffold(
 
     Box(modifier = Modifier.padding(it)) {
 
-        Carousel(
+        MosaicCarousel(
             state = state,
             transitionSpec = {
                 slideInHorizontally(
@@ -96,7 +94,7 @@ fun CarouselDemo() = Scaffold(
 
         }
 
-        CarouselProgressIndicator(
+        MosaicCarouselProgressBar(
             state = state,
             modifier = Modifier
                 .align(Alignment.TopCenter)

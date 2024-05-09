@@ -24,14 +24,14 @@ import androidx.compose.ui.unit.dp
  * @param segmentCornerRadius The corner radius of the segments.
  */
 @Composable
-public fun CarouselProgressIndicator(
-    state: CarouselState,
+public fun MosaicCarouselProgressBar(
+    state: MosaicCarouselState,
     modifier: Modifier = Modifier,
     segmentActiveColor: Color = Color.White,
     segmentInactiveColor: Color = Color.White.copy(alpha = 0.5f),
     segmentCornerRadius: CornerRadius = CornerRadius(16f),
 ) {
-    CarouselProgressIndicator(
+    MosaicCarouselProgressBar(
         itemsTotal = state.itemsCount,
         currentItem = state.currentItem,
         currentItemProgress = state.currentItemProgress,
@@ -43,7 +43,7 @@ public fun CarouselProgressIndicator(
 }
 
 @Composable
-internal fun CarouselProgressIndicator(
+internal fun MosaicCarouselProgressBar(
     itemsTotal: Int,
     currentItem: Int,
     currentItemProgress: Float,
@@ -104,7 +104,7 @@ private fun ProgressSegment(
 @Preview
 @Composable
 private fun PreviewCarouselProgressIndicator() {
-    CarouselProgressIndicator(
+    MosaicCarouselProgressBar(
         itemsTotal = 3,
         currentItem = 2,
         currentItemProgress = 0.5f,
