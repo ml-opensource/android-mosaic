@@ -1,7 +1,11 @@
+import com.vanniktech.maven.publish.AndroidSingleVariantLibrary
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.mosaic.library)
+    alias(libs.plugins.gradle.maven.publish)
 }
 
 android {
@@ -28,6 +32,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
+}
+
+mavenPublishing {
+    configure(AndroidSingleVariantLibrary("release"))
+    publishToMavenCentral(SonatypeHost.S01)
+    signAllPublications()
 }
 
 kotlin {
