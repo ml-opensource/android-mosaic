@@ -33,47 +33,51 @@ import io.monstarlab.mosaic.carousel.rememberCarouselState
 import io.monstarlab.mosaic.ui.theme.MosaicTheme
 import kotlin.time.Duration.Companion.seconds
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CarouselDemo() = Scaffold(
     topBar = {
-        TopAppBar(title = { Text(text = "Mosaic Carousel")   })
-    }
+        TopAppBar(title = { Text(text = "Mosaic Carousel") })
+    },
 ) {
     val state = rememberCarouselState(
         itemsCount = 3,
-        stayDuration = 5.seconds
+        stayDuration = 5.seconds,
     )
 
     Box(modifier = Modifier.padding(it)) {
-
         MosaicCarousel(
             state = state,
             transitionSpec = {
                 slideInHorizontally(
-                    initialOffsetX = { it }
+                    initialOffsetX = { it },
                 ) togetherWith slideOutHorizontally(
-                    targetOffsetX = { -it }
+                    targetOffsetX = { -it },
                 )
             },
 
         ) {
-            val icon = when(it) {
+            val icon = when (it) {
                 0 -> Icons.Rounded.Settings
                 1 -> Icons.Rounded.Favorite
                 else -> Icons.Rounded.Email
             }
 
-            val text = when(it) {
-                0 -> "Est deserunt cillum ipsum aute reprehenderit labore Lorem enim tempor enim incididunt quis dolore anim fugiat."
-                1 -> "Nulla commodo voluptate aliquip. Exercitation laboris laborum laborum laborum."
-                else -> "Officia ea voluptate nostrud quis. Adipisicing Officia ea voluptate nostrud quis. Adipisicing."
+            val text = when (it) {
+                0 ->
+                    "Est deserunt cillum ipsum aute reprehenderit labore Lorem enim tempor enim " +
+                        "incididunt quis dolore anim fugiat."
+                1 ->
+                    "Nulla commodo voluptate aliquip. Exercitation " +
+                        "laboris laborum laborum laborum."
+                else ->
+                    "Officia ea voluptate nostrud quis. " +
+                        "Adipisicing Officia ea voluptate nostrud quis. Adipisicing."
             }
 
             Column(
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 Icon(
                     imageVector = icon,
@@ -82,23 +86,22 @@ fun CarouselDemo() = Scaffold(
                     modifier = Modifier
                         .size(200.dp)
                         .align(Alignment.CenterHorizontally)
-                        .padding(16.dp)
+                        .padding(16.dp),
                 )
                 Text(
                     text = text,
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(16.dp).fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
             }
-
         }
 
         MosaicCarouselProgressBar(
             state = state,
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .height(2.dp)
+                .height(2.dp),
         )
     }
 }
