@@ -55,7 +55,8 @@ public class MosaicSliderState(
     /**
      * Current value of the slider
      * If value of the slider is out of the [range] it will be coerced into it
-     * If the value of the slider is inside the [disabledRange] It will be coerced int closes available range that is not disabled
+     * If the value of the slider is inside the [disabledRange]
+     * It will be coerced int closes available range that is not disabled
      *
      */
     public var value: Float

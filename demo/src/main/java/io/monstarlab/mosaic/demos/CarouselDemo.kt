@@ -1,5 +1,6 @@
 package io.monstarlab.mosaic.demos
 
+import android.graphics.drawable.Icon
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -24,6 +25,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -75,26 +77,7 @@ fun CarouselDemo() = Scaffold(
                         "Adipisicing Officia ea voluptate nostrud quis. Adipisicing."
             }
 
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .size(200.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .padding(16.dp),
-                )
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(16.dp).fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                )
-            }
+            CarouselItem(text = text, icon = icon)
         }
 
         MosaicCarouselProgressBar(
@@ -102,6 +85,32 @@ fun CarouselDemo() = Scaffold(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .height(2.dp),
+        )
+    }
+}
+
+@Composable
+fun CarouselItem(text: String, icon: ImageVector, modifier: Modifier = Modifier) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier.fillMaxSize(),
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .size(200.dp)
+                .align(Alignment.CenterHorizontally)
+                .padding(16.dp),
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center,
         )
     }
 }
