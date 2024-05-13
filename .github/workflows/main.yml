@@ -28,7 +28,7 @@ jobs:
       - name: Publish Snapshot
         run: |
           chmod +x ./publish_snapshot.sh
-          ./publish_snapshot.sh ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALUSERNAME}} ${{secrets.ORG_GRADLE_PROJECT_MAVENCENTRALPASSWORD}}
+          ./publish_snapshot.sh ${{secrets.SONATYPE_NEXUS_USERNAME}} ${{secrets.SONATYPE_NEXUS_PASSWORD}}
 
   update_draft_release:
     name: Create or Update Draft Release
