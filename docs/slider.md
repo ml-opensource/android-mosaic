@@ -38,25 +38,25 @@ Most likely you would also want to provide your custom range for the slider
 
 var sliderValue by remember { mutableFloatStateOf(50f) }
 
-Slider(
+MosaciSlider(
     value = sliderValue,
     onValueChange = { newValue -> sliderValue = newValue },
-    colors = SliderColors(Color.Green),
+    colors = MosaicSliderColors(Color.Green),
     range = 0f..100f
 )
 ```
 
-Alternatively there is an option to declare the slider using `rememberSliderState` function 
+Alternatively there is an option to declare the slider using `rememberMosaicSliderState` function 
 
 ```kotlin
-val slideState = rememberSliderState(
+val slideState = rememberMosaicSliderState(
     initialValue = 50f,
     range = 0f..100f
 )
 
- Slider(
+MosaicSlider(
     state = slideState,
-    colors = SliderColors(Color.Green)
+    colors = MosaicSliderColors(Color.Green)
 )
 ```
 
@@ -69,9 +69,9 @@ By default, Mosaic Slider has its own Slider Thumb which resembles the thumb you
 Following example has a custom thumb that displays current value and animates its size based on wether user drags it or not
 
 ```kotlin
- Slider(
+ MosaicSlider(
     state = slideState,
-    colors = SliderColors(Color.Green),
+    colors = MosaicSliderColors(Color.Green),
     thumb = { state ->
      val size = animateDpAsState(
             targetValue = if (state.isDragging) {
@@ -167,7 +167,7 @@ Using `CheckpointValuesDistribution` we can place values between 0 and 200 at th
 ```kotlin
 val distribution = SliderValuesDistribution.checkpoints(
     0f to 0f, // beginging of the slider
-    0.5f to 200f // half of the slider is now 200
+    0.5f to 200f, // half of the slider is now 200
     1f to 1000f // end of the slider
 )
 ```
@@ -181,7 +181,7 @@ object MyDistribution: SliderValueDistribution {
      override fun inverse(value: Float): Float {
        // inverse value
     }
-s
+
     override fun interpolate(value: Float): Float {
         // interpolate value
     }
