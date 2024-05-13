@@ -76,4 +76,4 @@ jobs:
           gh release create v${{ steps.properties.outputs.version }} \
             --draft \
             --title "v${{ steps.properties.outputs.version }}" \
-            --notes "$(echo "${{ steps.properties.outputs.changelog }}")"git
+            --notes "$(echo "${{ steps.properties.outputs.changelog }}")"
