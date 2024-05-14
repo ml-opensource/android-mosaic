@@ -1,5 +1,5 @@
-# Mosaic
 ![Maven Central Version](https://img.shields.io/maven-central/v/io.monstarlab.mosaic/slider)
+# Mosaic
 
 
 <p align="center">
