@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 14.05.2024
+
 ### Added
 
 - With our first Mosaic Release 🎉 we introduce the first compoment that makes it to the Mosaic Collection: Mosaic Slider.
