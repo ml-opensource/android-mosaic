@@ -1,0 +1,10 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:demo
+io.monstarlab.mosaic
+io.monstarlab.mosaic.demos
+io.monstarlab.mosaic.ui.theme
+module:slider
+io.monstarlab.mosaic.slider
+io.monstarlab.mosaic.slider.distribution
