@@ -24,3 +24,4 @@ rootProject.name = "Mosaic"
 include(":demo")
 include(":lib")
 include(":slider")
+include(":carousel")
